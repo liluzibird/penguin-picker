@@ -1,0 +1,2999 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Penguin Picker 2000 recommends a Linux distribution and desktop based on hardware, experience, maintenance, and goals.">
+  <title>Penguin Picker 2000 - Linux Setup Recommender</title>
+  <style>
+    :root {
+      --navy: #06142f;
+      --deep-blue: #0a2a5a;
+      --blue: #1265a8;
+      --sky: #bfefff;
+      --panel: #f1fbff;
+      --panel-blue: #d8f1fb;
+      --ink: #07152e;
+      --muted: #3c556e;
+      --orange: #ff9f1c;
+      --yellow: #ffe66d;
+      --green: #0a8f6a;
+      --red: #bd253d;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background-color: var(--navy);
+      background-image:
+        radial-gradient(circle at 12px 18px, rgba(255,255,255,.5) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 68px 48px, rgba(126,218,255,.45) 0 1px, transparent 1.5px),
+        linear-gradient(135deg, #071a3a 0%, #020817 58%, #0a1e42 100%);
+      background-size: 90px 75px, 120px 95px, auto;
+      font-family: Verdana, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    a { color: #005d9e; }
+    a:hover, a:focus { color: #b13b00; }
+    button, select { font: inherit; }
+
+    .page-shell {
+      width: min(1120px, calc(100% - 20px));
+      margin: 12px auto 30px;
+      overflow: hidden;
+      background: var(--panel);
+      border: 3px ridge #d6f7ff;
+      box-shadow: 0 0 0 2px #102f62, 0 12px 30px rgba(0,0,0,.45);
+    }
+
+    .masthead {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      padding: 17px 20px 14px;
+      color: var(--white);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(135deg, #0b397b, #08204c 72%);
+      background-size: 18px 18px, auto;
+      border-bottom: 3px ridge #7fdcff;
+    }
+
+    .penguin {
+      display: grid;
+      width: 70px;
+      height: 70px;
+      flex: 0 0 70px;
+      place-items: center;
+      color: #091329;
+      font-size: 42px;
+      background: #f5fbff;
+      border: 3px outset #c2f5ff;
+      box-shadow: inset 0 0 0 3px #5d8fb7;
+    }
+
+    .eyebrow {
+      margin-bottom: 2px;
+      color: var(--yellow);
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      margin-bottom: 1px;
+      color: #fff4a8;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(25px, 4vw, 43px);
+      line-height: 1;
+      letter-spacing: 1px;
+      text-shadow: 3px 3px 0 #041333;
+    }
+
+    h1 span { color: var(--orange); }
+
+    .tagline {
+      margin: 4px 0 0;
+      color: #d7f7ff;
+      font-size: 12px;
+    }
+
+    .mode-stamp {
+      margin-left: auto;
+      min-width: 132px;
+      padding: 8px 10px;
+      color: #06233b;
+      text-align: center;
+      font-size: 11px;
+      font-weight: bold;
+      background: #a8f3d2;
+      border: 3px outset #e7fff3;
+      box-shadow: 3px 3px 0 #03112d;
+    }
+
+    .mode-stamp small {
+      display: block;
+      margin-top: 3px;
+      color: #15553f;
+      font-size: 9px;
+      letter-spacing: .6px;
+    }
+
+    .ticker {
+      overflow: hidden;
+      color: #051834;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+      background: var(--orange);
+      border-bottom: 2px solid #7d3700;
+    }
+
+    .ticker span {
+      display: inline-block;
+      padding: 5px 0;
+      animation: ticker 22s linear infinite;
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 215px minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .sidebar {
+      min-height: 100%;
+      padding: 13px 11px 18px;
+      color: #e8faff;
+      background: #09234b;
+      border-right: 3px ridge #79ccea;
+    }
+
+    .side-box {
+      margin-bottom: 14px;
+      padding: 9px;
+      border: 1px solid #5e9bc8;
+      background: rgba(0,0,0,.18);
+      box-shadow: inset 0 0 0 1px #071a38;
+    }
+
+    .side-box h2 {
+      margin: -2px -2px 8px;
+      padding: 4px 5px;
+      color: #07204a;
+      font-size: 12px;
+      letter-spacing: .3px;
+      background: var(--sky);
+      border: 2px outset #d6fbff;
+    }
+
+    .side-box p {
+      margin-bottom: 7px;
+      font-size: 11px;
+    }
+
+    .side-list {
+      margin: 0;
+      padding-left: 17px;
+      font-size: 11px;
+    }
+
+    .side-list li { margin-bottom: 6px; }
+    .sidebar a { color: #bdf5ff; }
+
+    .preset {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 6px 7px;
+      color: #06234d;
+      text-align: left;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #b7ebfb;
+      border: 2px outset #e8fdff;
+    }
+
+    .preset:hover, .preset:focus {
+      color: #2a1800;
+      background: #ffe68d;
+    }
+
+    .content {
+      min-width: 0;
+      padding: 17px 18px 28px;
+      background:
+        linear-gradient(rgba(255,255,255,.58), rgba(255,255,255,.58)),
+        repeating-linear-gradient(0deg, transparent 0 23px, rgba(23,106,144,.04) 24px);
+    }
+
+    .intro {
+      padding: 12px 14px;
+      background: #fffde2;
+      border: 2px solid #e0c14c;
+      box-shadow: 3px 3px 0 rgba(31,76,106,.2);
+    }
+
+    .intro h2 {
+      margin-bottom: 4px;
+      color: #9a3500;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+    }
+
+    .intro p { margin-bottom: 5px; }
+    .intro p:last-child { margin-bottom: 0; }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 16px 0 8px;
+      color: #0a3c70;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 21px;
+    }
+
+    .section-heading::after {
+      content: "";
+      height: 2px;
+      flex: 1;
+      background: #79bad6;
+      border-top: 1px solid #fff;
+    }
+
+    .form-panel {
+      padding: 12px;
+      background: rgba(255,255,255,.8);
+      border: 2px groove #96c7d8;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 11px 14px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 3px;
+      color: #123d61;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .field small {
+      display: block;
+      margin: 3px 0 4px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: normal;
+    }
+
+    select {
+      width: 100%;
+      padding: 7px 8px;
+      color: #07182d;
+      background: #fff;
+      border: 2px inset #a4c8d7;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .primary, .secondary {
+      padding: 9px 14px;
+      color: #241500;
+      font-weight: bold;
+      cursor: pointer;
+      border: 3px outset #fff3b1;
+      box-shadow: 2px 2px 0 #577990;
+    }
+
+    .primary {
+      background: linear-gradient(#ffd86c, #ff9d16);
+      font-size: 15px;
+    }
+
+    .secondary {
+      color: #08315c;
+      background: #c6f1ff;
+      border-color: #f3ffff;
+      font-size: 12px;
+    }
+
+    .primary:active, .secondary:active, .preset:active { border-style: inset; }
+
+    .status-line {
+      min-height: 18px;
+      margin-top: 7px;
+      color: #145d50;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .ai-panel {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+      padding: 12px;
+      background: #e8ddff;
+      border: 3px ridge #b3a0e1;
+      box-shadow: 4px 4px 0 rgba(32,68,95,.18);
+    }
+
+    .ai-panel h3 {
+      margin-bottom: 3px;
+      color: #3c1f77;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+    }
+
+    .ai-panel p { margin-bottom: 0; font-size: 11px; }
+
+    .ai-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .ai-status {
+      min-height: 19px;
+      color: #3c1f77;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .ai-elapsed {
+      min-height: 17px;
+      color: #bbbbbb;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+    }
+
+    .ai-progress {
+      height: 12px;
+      padding: 2px;
+      background: #fff;
+      border: 2px inset #ac9bd4;
+    }
+
+    .ai-progress-fill {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #6f3db8, #d280ff);
+      transition: width .2s ease;
+    }
+
+    .ai-output {
+      padding: 11px;
+      color: #21123f;
+      white-space: pre-wrap;
+      background: #fffaff;
+      border: 2px inset #b9a9d8;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .ai-output:empty { display: none; }
+
+    .structured-report-label {
+      margin-bottom: 8px;
+      color: #4b248d;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: .4px;
+    }
+
+    .ai-output .top-result {
+      margin-top: 0;
+    }
+
+    .ai-output .section-heading {
+      color: #3c1f77;
+    }
+
+    .json-note {
+      margin-bottom: 0;
+      color: #4a6075;
+      font-size: 11px;
+    }
+
+    .source-index {
+      font-size: 10px;
+    }
+
+    .source-index li { margin-bottom: 5px; }
+
+    .results {
+      display: none;
+      margin-top: 20px;
+      padding-top: 4px;
+      border-top: 5px double #106a9c;
+    }
+
+    .results.visible { display: block; }
+
+    .results-heading {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .results-heading h2 {
+      margin-bottom: 3px;
+      color: #0b3f74;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 27px;
+    }
+
+    .result-note {
+      color: #4a6075;
+      font-size: 11px;
+    }
+
+    .top-result {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 180px;
+      gap: 15px;
+      margin-top: 10px;
+      padding: 14px;
+      background: #fffde1;
+      border: 3px ridge #d6ad38;
+      box-shadow: 4px 4px 0 rgba(32,68,95,.2);
+    }
+
+    .recommendation-label {
+      margin-bottom: 2px;
+      color: #af4100;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .top-result h3 {
+      margin-bottom: 4px;
+      color: #063a6f;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .variant {
+      color: #895400;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .top-result .summary { margin: 7px 0 9px; }
+
+    .score-panel {
+      padding: 10px;
+      text-align: center;
+      background: #e3f7ff;
+      border: 2px inset #9dc8d8;
+    }
+
+    .score-number {
+      color: #0b7e62;
+      font-size: 34px;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .score-panel small {
+      display: block;
+      margin: 4px 0 8px;
+      color: #23465d;
+      font-size: 10px;
+    }
+
+    .score-bar {
+      height: 14px;
+      padding: 2px;
+      background: #fff;
+      border: 2px inset #a8c8d5;
+    }
+
+    .score-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #11a67b, #8ddc4b);
+    }
+
+    .reason-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .reason-box {
+      padding: 9px 10px;
+      border: 1px solid #9bc4d6;
+      background: rgba(255,255,255,.75);
+    }
+
+    .reason-box h4 {
+      margin-bottom: 5px;
+      color: #145578;
+      font-size: 12px;
+    }
+
+    .reason-box ul, .facts ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 12px;
+    }
+
+    .reason-box li, .facts li { margin-bottom: 4px; }
+    .caution h4 { color: var(--red); }
+    .caution { background: #fff2f3; border-color: #e0a1a9; }
+
+    .alternatives {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .alternative {
+      padding: 10px;
+      background: #f6fdff;
+      border: 2px solid #9dc7d8;
+    }
+
+    .alternative h3 {
+      margin-bottom: 2px;
+      color: #0b3f74;
+      font-size: 16px;
+    }
+
+    .alternative .mini-score {
+      float: right;
+      padding: 2px 5px;
+      color: #063d2c;
+      font-size: 10px;
+      font-weight: bold;
+      background: #b4edcf;
+      border: 1px solid #4da67f;
+    }
+
+    .alternative p {
+      clear: both;
+      margin: 7px 0 0;
+      color: #385870;
+      font-size: 11px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .info-card {
+      padding: 11px;
+      background: #e4f7ff;
+      border: 2px groove #a5c9d7;
+    }
+
+    .info-card h3 {
+      margin-bottom: 6px;
+      color: #0b426f;
+      font-size: 14px;
+    }
+
+    .info-card p { margin-bottom: 6px; font-size: 11px; }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .chip {
+      padding: 3px 5px;
+      color: #09335a;
+      font-size: 10px;
+      font-weight: bold;
+      background: #c8edff;
+      border: 1px solid #6faccc;
+    }
+
+    details {
+      margin-top: 12px;
+      padding: 9px 10px;
+      background: #fbffff;
+      border: 1px solid #99c6d8;
+    }
+
+    summary {
+      color: #084d7b;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    pre {
+      overflow: auto;
+      max-height: 340px;
+      margin: 9px 0 0;
+      padding: 10px;
+      color: #d9f8ff;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      background: #07162e;
+      border: 2px inset #6c9ab0;
+    }
+
+    .facts {
+      margin-top: 14px;
+      padding: 10px 11px;
+      background: #edfbdc;
+      border: 2px solid #a8c862;
+    }
+
+    .facts h3 {
+      margin-bottom: 6px;
+      color: #406300;
+      font-size: 14px;
+    }
+
+    .sources {
+      margin-top: 8px;
+      font-size: 10px;
+    }
+
+    .sources ul {
+      margin: 5px 0 0;
+      padding-left: 17px;
+    }
+
+    .footer {
+      padding: 11px 16px;
+      color: #d9f8ff;
+      text-align: center;
+      font-size: 10px;
+      background: #071a38;
+      border-top: 3px ridge #79ccea;
+    }
+
+    .footer strong { color: var(--yellow); }
+
+    @media (max-width: 780px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        border-right: 0;
+        border-bottom: 3px ridge #79ccea;
+      }
+      .side-box { margin-bottom: 0; }
+      .side-box:last-child { grid-column: 1 / -1; }
+      .top-result { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      body { font-size: 13px; }
+      .page-shell { width: calc(100% - 8px); margin-top: 4px; }
+      .masthead { padding: 12px 10px; }
+      .penguin { width: 48px; height: 48px; flex-basis: 48px; font-size: 29px; }
+      .mode-stamp { display: none; }
+      .sidebar, .field-grid, .reason-grid, .alternatives, .info-grid { grid-template-columns: 1fr; }
+      .content { padding: 12px 9px 22px; }
+      .side-box:last-child { grid-column: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .ticker span { animation: none; }
+    }
+
+    /* MVP theme: simple, readable, and easy to replace later. */
+    body {
+      color: #ffffff;
+      background: #111111;
+      background-image: none;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+    }
+
+    a { color: #8fc7ff; }
+    a:hover, a:focus { color: #ffffff; }
+
+    .page-shell {
+      width: min(1000px, calc(100% - 12px));
+      margin: 6px auto 18px;
+      background: #1b1b1b;
+      border: 1px solid #888888;
+      box-shadow: none;
+    }
+
+    .masthead {
+      display: block;
+      padding: 10px 12px 8px;
+      background: #303030;
+      border-bottom: 1px solid #999999;
+    }
+
+    .penguin {
+      display: none;
+    }
+
+    .eyebrow {
+      margin-bottom: 3px;
+      color: #bbbbbb;
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      margin: 0;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 27px;
+      letter-spacing: 0;
+      text-shadow: none;
+    }
+
+    h1 span { color: #8fc7ff; }
+
+    .tagline {
+      margin: 4px 0 0;
+      color: #dddddd;
+      font-size: 12px;
+    }
+
+    .mode-stamp {
+      display: inline-block;
+      margin: 8px 0 0;
+      min-width: 0;
+      padding: 3px 5px;
+      color: #ffffff;
+      text-align: left;
+      font-size: 10px;
+      background: #202020;
+      border: 1px solid #777777;
+      box-shadow: none;
+    }
+
+    .mode-stamp small {
+      display: inline;
+      margin: 0 0 0 6px;
+      color: #bbbbbb;
+      font-size: 9px;
+    }
+
+    .ticker {
+      overflow: hidden;
+      padding: 4px 6px;
+      color: #dddddd;
+      font-size: 11px;
+      white-space: normal;
+      background: #000000;
+      border-bottom: 1px solid #777777;
+    }
+
+    .ticker span {
+      display: inline;
+      padding: 0;
+      animation: none;
+    }
+
+    .layout {
+      grid-template-columns: 185px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      padding: 8px;
+      color: #ffffff;
+      background: #242424;
+      border-right: 1px solid #777777;
+    }
+
+    .side-box {
+      margin-bottom: 9px;
+      padding: 7px;
+      background: #171717;
+      border: 1px solid #666666;
+      box-shadow: none;
+    }
+
+    .side-box h2 {
+      margin: -7px -7px 7px;
+      padding: 4px 5px;
+      color: #ffffff;
+      font-size: 11px;
+      background: #3a3a3a;
+      border: 0;
+      border-bottom: 1px solid #777777;
+    }
+
+    .side-box p, .side-list { font-size: 11px; }
+    .sidebar a { color: #8fc7ff; }
+
+    .preset {
+      margin: 4px 0;
+      padding: 4px 5px;
+      color: #ffffff;
+      font-size: 11px;
+      background: #3d3d3d;
+      border: 1px solid #999999;
+    }
+
+    .preset:hover, .preset:focus {
+      color: #000000;
+      background: #dddddd;
+    }
+
+    .content {
+      padding: 12px;
+      background: #1b1b1b;
+    }
+
+    .intro, .form-panel, .top-result, .reason-box, .alternative, .info-card, details, .ai-panel {
+      box-shadow: none;
+      border: 1px solid #777777;
+    }
+
+    .intro {
+      padding: 9px 10px;
+      color: #ffffff;
+      background: #242424;
+    }
+
+    .intro h2, .section-heading, .results-heading h2 {
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      text-shadow: none;
+    }
+
+    .intro h2 { font-size: 19px; }
+    .section-heading {
+      margin: 14px 0 6px;
+      font-size: 17px;
+    }
+
+    .section-heading::after {
+      background: #666666;
+      border-top: 0;
+    }
+
+    .form-panel {
+      padding: 9px;
+      background: #242424;
+    }
+
+    .field-grid { gap: 8px 12px; }
+    .field label { color: #ffffff; font-size: 12px; }
+    .field small, .result-note, .json-note { color: #bbbbbb; }
+
+    select {
+      padding: 5px 6px;
+      color: #000000;
+      background: #f4f4f4;
+      border: 1px solid #777777;
+    }
+
+    .actions { margin-top: 10px; }
+    .primary, .secondary {
+      padding: 6px 9px;
+      color: #000000;
+      background: #cccccc;
+      border: 2px outset #eeeeee;
+      box-shadow: none;
+      font-size: 12px;
+    }
+
+    .primary { background: #b8d4e8; font-size: 13px; }
+    .secondary { color: #000000; background: #cccccc; border-color: #eeeeee; }
+    .status-line, .ai-status { color: #9fe6b7; }
+    .ai-elapsed { color: #bbbbbb; }
+
+    .results {
+      margin-top: 14px;
+      border-top: 1px solid #999999;
+    }
+
+    .results-heading { justify-content: flex-start; }
+    .results-heading h2 { font-size: 21px; }
+
+    .top-result {
+      grid-template-columns: minmax(0, 1fr) 120px;
+      margin-top: 8px;
+      padding: 10px;
+      background: #242424;
+    }
+
+    .recommendation-label, .structured-report-label { color: #8fc7ff; }
+    .top-result h3 { color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 21px; }
+    .variant { color: #bbbbbb; }
+    .score-panel { background: #171717; border: 1px solid #777777; }
+    .score-number { color: #9fe6b7; font-size: 28px; }
+    .score-panel small { color: #bbbbbb; }
+    .score-bar { border: 1px solid #777777; }
+    .score-fill { background: #6fcf91; }
+
+    .reason-grid, .alternatives, .info-grid { gap: 8px; margin-top: 9px; }
+    .reason-box, .alternative, .info-card, details { padding: 8px; background: #242424; }
+    .reason-box h4, .info-card h3, .alternative h3 { color: #ffffff; }
+    .reason-box ul, .facts ul { font-size: 11px; }
+    .caution { background: #2b2022; border-color: #9b6868; }
+    .caution h4 { color: #ffaaaa; }
+    .alternative h3 { font-size: 14px; }
+    .alternative p, .info-card p { color: #cccccc; }
+    .alternative .mini-score { color: #000000; background: #a9d8b9; border-color: #6d9f7d; }
+    .info-card { background: #242424; }
+    .facts { margin-top: 8px; padding: 8px; background: #202820; border: 1px solid #718f71; }
+    .facts h3 { color: #c5efc5; }
+    .chip { color: #ffffff; background: #3d3d3d; border-color: #777777; }
+    details { background: #202020; }
+    summary { color: #8fc7ff; }
+    pre { margin-top: 8px; background: #000000; border-color: #777777; }
+    .ai-panel { margin-top: 10px; padding: 9px; background: #242424; }
+    .ai-panel h3 { color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 16px; }
+    .ai-output { color: #ffffff; background: #171717; border-color: #777777; }
+    .ai-progress { background: #000000; border-color: #777777; }
+    .ai-progress-fill { background: #6fcf91; border-top: 0; }
+    .footer { color: #bbbbbb; border-top: 1px solid #777777; }
+    .footer strong { color: #ffffff; }
+
+    @media (max-width: 780px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { border-right: 0; border-bottom: 1px solid #777777; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="masthead">
+      <div class="penguin" aria-hidden="true">🐧</div>
+      <div>
+        <div class="eyebrow">THE FREE UNIX WEB RING PRESENTS</div>
+        <h1>PENGUIN PICKER <span>2000</span></h1>
+        <p class="tagline">A personalized Linux distro + desktop recommendation machine</p>
+      </div>
+      <div class="mode-stamp">OPEN-SOURCE AI<small>LOCAL CPU/WASM</small></div>
+    </header>
+
+    <div class="ticker" aria-label="Site message">
+      <span>*** NEW! MATCH YOUR HARDWARE TO A DISTRO *** CHECK THE COMMUNITY NOTES *** TEST A LIVE USB BEFORE INSTALLING *** GNU/LINUX FOR EVERYONE ***</span>
+    </div>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="side-box">
+          <h2>QUICK PROFILES</h2>
+          <p>Click a profile to fill the form, then adjust anything you want.</p>
+          <button class="preset" type="button" data-preset="old-laptop">Old laptop / 4 GB</button>
+          <button class="preset" type="button" data-preset="gaming">Gaming PC</button>
+          <button class="preset" type="button" data-preset="developer">Developer workstation</button>
+          <button class="preset" type="button" data-preset="power-user">Power user / tiling</button>
+        </div>
+
+        <div class="side-box">
+          <h2>PROJECT LINKS</h2>
+          <ul class="side-list">
+            <li><a href="#quiz">Run the matcher</a></li>
+            <li><a href="#results">View the result</a></li>
+            <li><a href="#prompt-box">See the prompt patterns</a></li>
+          </ul>
+        </div>
+
+        <div class="side-box">
+          <h2>COMMUNITY NOTES</h2>
+          <ul class="side-list">
+            <li>Lightweight desktops such as Xfce and LXQt are common choices for older hardware.</li>
+            <li>DistroWatch interest is not the same thing as quality or market share.</li>
+            <li>Hardware should be tested from a live USB before installation.</li>
+            <li>Rolling releases reward users who are comfortable reading update notes.</li>
+          </ul>
+        </div>
+
+        <div class="side-box">
+          <h2>RECOMMENDATION INDEX</h2>
+          <p>These sites helped shape the catalog and categories. They are discovery signals, not proof that one distro is best.</p>
+          <ul class="side-list source-index">
+            <li><a href="https://distrochooser.de/" target="_blank" rel="noopener">Distrochooser</a></li>
+            <li><a href="https://linuxize.com/post/best-linux-distributions/" target="_blank" rel="noopener">Linuxize distro guide</a></li>
+            <li><a href="https://distrowatch.com/" target="_blank" rel="noopener">DistroWatch</a></li>
+            <li><a href="https://linuxpicker.com/" target="_blank" rel="noopener">LinuxPicker</a></li>
+            <li><a href="https://pickmydistro.com/" target="_blank" rel="noopener">PickMyDistro</a></li>
+            <li><a href="https://distro.wiz/" target="_blank" rel="noopener">DistroWiz</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section class="intro">
+          <h2>Stop guessing. Match your machine.</h2>
+          <p>Answer a few plain-English questions and get a distro, desktop environment, or tiling setup that fits your hardware and habits.</p>
+          <p><strong>Catalog:</strong> 26 curated distro + desktop/window-manager combinations, from Mint, Ubuntu, Debian, Fedora, and Arch to CachyOS, EndeavourOS, Manjaro, NixOS, MX, antiX, Q4OS, Tails, and Parrot.</p>
+          <p><strong>Privacy note:</strong> the catalog context and open-source AI model run in this browser. The model downloads once from a public CDN, then stays cached by the browser.</p>
+        </section>
+
+        <form id="quiz" novalidate>
+          <h2 class="section-heading">1. Tell the penguin about you</h2>
+          <div class="form-panel">
+            <div class="field-grid">
+              <div class="field">
+                <label for="experience">Linux experience</label>
+                <small>How much troubleshooting are you comfortable doing?</small>
+                <select id="experience">
+                  <option value="beginner">New to Linux</option>
+                  <option value="casual">Some Linux experience</option>
+                  <option value="intermediate">Comfortable with the terminal</option>
+                  <option value="advanced">Advanced / I enjoy troubleshooting</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="ram">System memory (RAM)</label>
+                <small>Use the amount installed in your computer.</small>
+                <select id="ram">
+                  <option value="2">2 GB or less</option>
+                  <option value="4" selected>4 GB</option>
+                  <option value="8">8 GB</option>
+                  <option value="16">16 GB</option>
+                  <option value="32">32 GB or more</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="cpu">Processor age / speed</label>
+                <small>A rough description is enough.</small>
+                <select id="cpu">
+                  <option value="old">Older or low-power processor</option>
+                  <option value="modest">Everyday mid-range processor</option>
+                  <option value="modern" selected>Modern processor</option>
+                  <option value="high">High-end processor</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="graphics">Graphics hardware</label>
+                <small>Drivers can affect gaming and visual effects.</small>
+                <select id="graphics">
+                  <option value="integrated" selected>Integrated graphics</option>
+                  <option value="amd">AMD graphics card</option>
+                  <option value="nvidia">NVIDIA graphics card</option>
+                  <option value="mixed">Not sure / mixed hardware</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="section-heading">2. Describe your ideal Linux day</h2>
+          <div class="form-panel">
+            <div class="field-grid">
+              <div class="field">
+                <label for="use">Main purpose</label>
+                <select id="use">
+                  <option value="general" selected>Web, school, and everyday use</option>
+                  <option value="development">Programming and development</option>
+                  <option value="gaming">Gaming</option>
+                  <option value="creative">Creative work</option>
+                  <option value="privacy">Privacy, learning, and experimentation</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="updates">Update preference</label>
+                <select id="updates">
+                  <option value="stable" selected>Stable and predictable</option>
+                  <option value="balanced">New software, still practical</option>
+                  <option value="rolling">Latest packages all the time</option>
+                  <option value="immutable">Image-based updates and rollback</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="maintenance">Maintenance style</label>
+                <select id="maintenance">
+                  <option value="hands-off" selected>Install it and keep it simple</option>
+                  <option value="moderate">I can do routine maintenance</option>
+                  <option value="hands-on">I want control and do not mind tinkering</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="desktop">Desktop feel</label>
+                <select id="desktop">
+                  <option value="traditional" selected>Traditional / Windows-like</option>
+                  <option value="modern">Modern and polished</option>
+                  <option value="minimal">Minimal and lightweight</option>
+                  <option value="tiling">Keyboard-driven tiling</option>
+                  <option value="any">No strong preference</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="hardware">Hardware risk tolerance</label>
+                <select id="hardware">
+                  <option value="cautious" selected>I want the safest first try</option>
+                  <option value="normal">I can test and troubleshoot</option>
+                  <option value="experimental">I want newer or unusual options</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="install">Installation comfort</label>
+                <select id="install">
+                  <option value="guided" selected>Graphical installer preferred</option>
+                  <option value="flexible">I can follow a detailed guide</option>
+                  <option value="manual">I want to build the system myself</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="primary" type="submit">GET MY LINUX MATCH &raquo;</button>
+              <button class="secondary" type="button" id="resetBtn">RESET FORM</button>
+            </div>
+            <div class="status-line" id="statusLine" role="status" aria-live="polite"></div>
+          </div>
+        </form>
+
+        <section class="results" id="results" aria-live="polite">
+          <div class="results-heading">
+            <div>
+              <h2>Your AI setup report</h2>
+              <div class="result-note">The score is a fit estimate, not a benchmark or a guarantee.</div>
+            </div>
+          </div>
+
+          <div id="resultOutput"></div>
+
+          <div class="ai-panel">
+            <div>
+              <h3>Open-source AI explanation</h3>
+              <p>Load the smaller instruction-tuned SmolLM2 135M model locally with Transformers.js on CPU/WASM, then ask it for a short labeled explanation. The app validates that explanation and wraps it into the structured JSON report. Generation runs in a background worker so the page stays responsive. No WebGPU or server is required.</p>
+            </div>
+            <div class="ai-controls">
+              <button class="secondary" type="button" id="loadModelBtn">LOAD LOCAL MODEL</button>
+              <button class="primary" type="button" id="generateAiBtn" disabled>GENERATE AI EXPLANATION &raquo;</button>
+            </div>
+            <div class="ai-progress" aria-hidden="true"><div class="ai-progress-fill" id="aiProgressFill"></div></div>
+            <div class="ai-elapsed" id="aiElapsed" role="status" aria-live="polite">Elapsed: 00:00 &middot; waiting</div>
+            <div class="ai-status" id="aiStatus" role="status" aria-live="polite">Model not loaded. Run the matcher to start the AI report.</div>
+            <div class="ai-output" id="aiOutput" aria-live="polite"></div>
+          </div>
+
+          <details id="json-box">
+            <summary>Show the structured JSON used to render this report</summary>
+            <p class="json-note">The webpage always renders one validated JSON contract. The catalog supplies verified recommendation facts, while the local model supplies the explanation text when available.</p>
+            <pre id="jsonText"></pre>
+            <div class="actions">
+              <button class="secondary" type="button" id="copyJson">COPY JSON TO CLIPBOARD</button>
+              <span class="status-line" id="jsonStatus" role="status" aria-live="polite"></span>
+            </div>
+          </details>
+
+          <details id="prompt-box">
+            <summary>Show the prompt-engineering blueprint used by this MVP</summary>
+            <p class="result-note">This blueprint supplies the Persona, Few-shot, and Fact Check List instructions. The browser sends a shorter labeled-output version so the small local model can finish reliably, then wraps the response into the JSON report.</p>
+            <pre id="promptText"></pre>
+            <div class="actions">
+              <button class="secondary" type="button" id="copyPrompt">COPY PROMPT TO CLIPBOARD</button>
+              <span class="status-line" id="copyStatus" role="status" aria-live="polite"></span>
+            </div>
+          </details>
+        </section>
+      </main>
+    </div>
+
+    <footer class="footer">
+      <strong>Penguin Picker 2000</strong> &middot; A zero-cost, offline-friendly AI application prototype &middot; Always test a live USB and back up your data first.
+    </footer>
+  </div>
+
+  <script>
+    /*
+      Penguin Picker 2000
+      -------------------
+      The app uses a browser-local open-source LLM as its only user-facing
+      recommendation engine. Transformers.js loads the ONNX instruction-tuned SmolLM2
+      135M model through a public CDN and runs it with CPU/WASM in a Web Worker;
+      no WebGPU or server is required.
+      The catalog context supplies verified fields and the LLM supplies a short
+      explanation. The UI validates both pieces and renders one JSON report.
+      The prompt blueprint demonstrates Persona, Few-shot, and Fact-check List
+      patterns from the course slides.
+    */
+
+    var profiles = [
+      {
+        id: "mint-cinnamon",
+        name: "Linux Mint",
+        variant: "Cinnamon",
+        family: "Ubuntu/Debian family",
+        tags: ["friendly", "traditional", "stable"],
+        minRam: 4,
+        load: "medium",
+        skill: 0,
+        updates: ["stable"],
+        maintenance: ["hands-off"],
+        desktopStyle: ["traditional"],
+        uses: ["general", "education", "creative"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "low",
+        install: "guided",
+        summary: "A familiar, practical starting point for people who want a complete desktop without constant tweaking.",
+        strengths: ["Comfortable Windows-like layout", "Large Ubuntu/Debian software ecosystem", "Conservative update experience"],
+        tradeoffs: ["Not the newest desktop software", "Cinnamon is not the lightest option for very old machines"],
+        facts: ["Linux Mint publishes Cinnamon, MATE, and Xfce editions.", "Its user guide documents a graphical Update Manager."],
+        sources: [
+          ["Linux Mint editions", "https://linuxmint.com/download.php"],
+          ["Linux Mint Update Manager guide", "https://linuxmint-user-guide.readthedocs.io/en/latest/mintupdate.html"]
+        ]
+      },
+      {
+        id: "mint-xfce",
+        name: "Linux Mint",
+        variant: "Xfce",
+        family: "Ubuntu/Debian family",
+        tags: ["lightweight", "friendly", "stable"],
+        minRam: 2,
+        load: "light",
+        skill: 0,
+        updates: ["stable"],
+        maintenance: ["hands-off"],
+        desktopStyle: ["traditional", "minimal"],
+        uses: ["general", "education", "privacy"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "low",
+        install: "guided",
+        summary: "A gentle, familiar choice when you want Linux Mint's ecosystem with less desktop overhead.",
+        strengths: ["Good fit for older laptops", "Traditional desktop layout", "Simple graphical installation"],
+        tradeoffs: ["Fewer visual effects than Cinnamon", "Very old hardware still needs a live-USB test"],
+        facts: ["Xfce describes itself as lightweight and low on system resources.", "Linux Mint lists Xfce as an official edition."],
+        sources: [
+          ["Linux Mint downloads", "https://linuxmint.com/download.php"],
+          ["Xfce project", "https://www.xfce.org/"]
+        ]
+      },
+      {
+        id: "ubuntu-gnome",
+        name: "Ubuntu LTS",
+        variant: "GNOME",
+        family: "Ubuntu",
+        tags: ["supported", "general-purpose", "modern"],
+        minRam: 4,
+        load: "full",
+        skill: 0,
+        updates: ["stable"],
+        maintenance: ["hands-off", "moderate"],
+        desktopStyle: ["modern"],
+        uses: ["general", "development", "creative", "education"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "low",
+        install: "guided",
+        summary: "A mainstream desktop with strong documentation and a clear path for new Linux users.",
+        strengths: ["Guided installer and broad hardware testing resources", "Strong documentation and community footprint", "Good general-purpose default"],
+        tradeoffs: ["GNOME can feel heavy on older hardware", "The default workflow is different from Windows"],
+        facts: ["Ubuntu provides a certified-hardware catalog.", "Ubuntu documentation recommends trying the desktop from a USB before installing."],
+        sources: [
+          ["Ubuntu Desktop", "https://ubuntu.com/desktop"],
+          ["Ubuntu certified hardware", "https://ubuntu.com/certified"],
+          ["Try Ubuntu from a USB", "https://ubuntu.com/desktop/docs/en/latest/tutorial/try-ubuntu-desktop/"]
+        ]
+      },
+      {
+        id: "debian-xfce",
+        name: "Debian Stable",
+        variant: "Xfce",
+        family: "Debian",
+        tags: ["stable", "lightweight", "long-lived"],
+        minRam: 2,
+        load: "light",
+        skill: 1,
+        updates: ["stable"],
+        maintenance: ["hands-off", "moderate"],
+        desktopStyle: ["traditional", "minimal"],
+        uses: ["general", "development", "privacy", "education"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "low",
+        install: "flexible",
+        summary: "A calm, dependable base for users who value stability and do not need the newest packages.",
+        strengths: ["Stable release model", "Light Xfce desktop", "Excellent foundation for learning Linux"],
+        tradeoffs: ["Some hardware and applications may be older", "The installer can require more choices than Mint"],
+        facts: ["Debian describes Stable as its production release.", "Debian maintains Stable, Testing, and Unstable branches."],
+        sources: [
+          ["Debian releases", "https://www.debian.org/releases/"],
+          ["Xfce project", "https://www.xfce.org/"]
+        ]
+      },
+      {
+        id: "debian-lxqt",
+        name: "Debian Stable",
+        variant: "LXQt",
+        family: "Debian",
+        tags: ["very light", "stable", "traditional"],
+        minRam: 2,
+        load: "light",
+        skill: 1,
+        updates: ["stable"],
+        maintenance: ["hands-off", "moderate"],
+        desktopStyle: ["traditional", "minimal"],
+        uses: ["general", "privacy", "education"],
+        graphics: ["integrated", "amd", "mixed"],
+        hardwareRisk: "low",
+        install: "flexible",
+        summary: "A lean desktop pairing for older systems where responsiveness matters more than visual effects.",
+        strengths: ["Low-resource desktop pairing", "Stable Debian base", "Traditional panels and menus"],
+        tradeoffs: ["May require more manual setup", "Very new hardware may need newer kernels or drivers"],
+        facts: ["LXQt is a lightweight and modular Qt desktop environment.", "Debian Stable is intended for production use."],
+        sources: [
+          ["Debian releases", "https://www.debian.org/releases/"],
+          ["LXQt project", "https://lxqt-project.org/"]
+        ]
+      },
+      {
+        id: "fedora-gnome",
+        name: "Fedora Workstation",
+        variant: "GNOME",
+        family: "Fedora",
+        tags: ["current", "developer-friendly", "modern"],
+        minRam: 4,
+        load: "full",
+        skill: 1,
+        updates: ["balanced"],
+        maintenance: ["moderate"],
+        desktopStyle: ["modern"],
+        uses: ["development", "general", "creative", "education"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "A polished modern desktop that is especially attractive for programming and current Linux technologies.",
+        strengths: ["Current developer tools and libraries", "Official Workstation edition", "Modern GNOME workflow"],
+        tradeoffs: ["Faster release cadence than an LTS-style system", "GNOME can be demanding on older machines"],
+        facts: ["Fedora describes Workstation as a general-purpose desktop and developer platform.", "Fedora's default Workstation hardware guidance depends on use case and desktop."],
+        sources: [
+          ["Fedora Workstation", "https://fedoraproject.org/workstation/download/"],
+          ["Fedora Workstation documentation", "https://docs.fedoraproject.org/en-US/workstation-docs/"]
+        ]
+      },
+      {
+        id: "fedora-kde",
+        name: "Fedora KDE Plasma",
+        variant: "KDE Plasma",
+        family: "Fedora",
+        tags: ["customizable", "current", "powerful"],
+        minRam: 4,
+        load: "full",
+        skill: 1,
+        updates: ["balanced"],
+        maintenance: ["moderate"],
+        desktopStyle: ["traditional", "modern"],
+        uses: ["development", "gaming", "creative", "general"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "A flexible, feature-rich desktop for users who want a familiar layout and lots of control.",
+        strengths: ["Highly configurable desktop", "Good fit for creative and power users", "Familiar panel-and-menu layout"],
+        tradeoffs: ["More settings can mean more decisions", "Current software needs routine updates"],
+        facts: ["KDE describes Plasma as flexible and configurable.", "Fedora provides KDE as an official desktop edition."],
+        sources: [
+          ["KDE Plasma", "https://kde.org/plasma-desktop/"],
+          ["Fedora KDE Plasma", "https://fedoraproject.org/spins/kde/"]
+        ]
+      },
+      {
+        id: "fedora-xfce",
+        name: "Fedora Xfce",
+        variant: "Xfce",
+        family: "Fedora",
+        tags: ["lightweight", "current", "practical"],
+        minRam: 2,
+        load: "light",
+        skill: 1,
+        updates: ["balanced"],
+        maintenance: ["moderate"],
+        desktopStyle: ["traditional", "minimal"],
+        uses: ["development", "general", "education", "privacy"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "A lighter Fedora option for users who want newer packages without a heavy desktop.",
+        strengths: ["Light desktop with current Fedora packages", "Traditional and efficient workflow", "Useful middle ground for older hardware"],
+        tradeoffs: ["Fedora's quicker cadence still needs routine updates", "Some proprietary hardware setup may take extra work"],
+        facts: ["Fedora says its Xfce spin aims to be fast and lightweight.", "Xfce describes itself as low on system resources."],
+        sources: [
+          ["Fedora Xfce", "https://fedoraproject.org/spins/xfce/download/"],
+          ["Xfce project", "https://www.xfce.org/"]
+        ]
+      },
+      {
+        id: "bazzite-kde",
+        name: "Bazzite",
+        variant: "KDE Plasma",
+        family: "Fedora Atomic",
+        tags: ["gaming", "atomic", "rollback-friendly"],
+        minRam: 8,
+        load: "heavy",
+        skill: 1,
+        updates: ["immutable", "balanced"],
+        maintenance: ["hands-off", "moderate"],
+        desktopStyle: ["traditional", "modern"],
+        uses: ["gaming"],
+        graphics: ["amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "A gaming-focused Fedora Atomic desktop with many gaming conveniences preconfigured.",
+        strengths: ["Gaming-first setup", "Atomic base with rollback-oriented design", "Good match for a modern gaming PC"],
+        tradeoffs: ["Overkill for an old office laptop", "Immutable workflows differ from a traditional Linux install"],
+        facts: ["Bazzite documents itself as a gaming-focused Fedora Atomic image.", "Its documentation explains the read-only root and image-based update model."],
+        sources: [
+          ["Bazzite", "https://bazzite.gg/"],
+          ["Bazzite and Fedora Atomic comparison", "https://docs.bazzite.gg/General/Fedora_Atomic_Comparison/"]
+        ]
+      },
+      {
+        id: "opensuse-kde",
+        name: "openSUSE Tumbleweed",
+        variant: "KDE Plasma",
+        family: "openSUSE",
+        tags: ["rolling", "tested snapshots", "powerful"],
+        minRam: 4,
+        load: "full",
+        skill: 2,
+        updates: ["rolling"],
+        maintenance: ["moderate", "hands-on"],
+        desktopStyle: ["traditional", "modern"],
+        uses: ["development", "creative", "privacy", "general"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "flexible",
+        summary: "A rolling desktop for users who want new software and are willing to pay attention to update guidance.",
+        strengths: ["Fresh packages without traditional major-version upgrades", "Tested snapshots", "KDE tools and system integration"],
+        tradeoffs: ["Rolling maintenance is not ideal for everyone", "Read update notes and keep recovery options available"],
+        facts: ["openSUSE documents Tumbleweed snapshots as batches tested through openQA.", "Its documentation explains rollback and snapshot practices."],
+        sources: [
+          ["openSUSE Tumbleweed update guidance", "https://doc.opensuse.org/documentation/tumbleweed/updating_upgrading_reverting/"],
+          ["KDE Plasma", "https://kde.org/plasma-desktop/"]
+        ]
+      },
+      {
+        id: "arch-i3",
+        name: "Arch Linux",
+        variant: "i3 tiling window manager",
+        family: "Arch",
+        tags: ["hands-on", "rolling", "minimal"],
+        minRam: 2,
+        load: "light",
+        skill: 3,
+        updates: ["rolling"],
+        maintenance: ["hands-on"],
+        desktopStyle: ["tiling", "minimal"],
+        uses: ["development", "privacy", "education"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "high",
+        install: "manual",
+        summary: "A build-your-own setup for advanced users who want control, current packages, and a keyboard-driven workflow.",
+        strengths: ["Maximum control over installed components", "Excellent learning environment", "Tiling workflow can be very efficient"],
+        tradeoffs: ["Not the safest first Linux install", "Rolling updates require active maintenance and troubleshooting"],
+        facts: ["Arch describes itself as a lightweight and flexible distribution.", "Arch follows a rolling-release model and provides an extensive wiki."],
+        sources: [
+          ["Arch Linux overview", "https://archlinux.org/"],
+          ["Arch Linux on the ArchWiki", "https://wiki.archlinux.org/title/Arch_Linux"]
+        ]
+      },
+      {
+        id: "mint-mate",
+        name: "Linux Mint",
+        variant: "MATE",
+        family: "Ubuntu/Debian family",
+        tags: ["traditional", "lightweight", "stable"],
+        minRam: 2,
+        load: "light",
+        skill: 0,
+        updates: ["stable"],
+        maintenance: ["hands-off"],
+        desktopStyle: ["traditional", "minimal"],
+        uses: ["general", "education", "creative"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "low",
+        install: "guided",
+        summary: "A traditional, low-fuss Mint desktop for users who want familiar menus with less overhead than Cinnamon.",
+        strengths: ["Familiar desktop layout", "Lightweight MATE session", "Friendly graphical tools"],
+        tradeoffs: ["Older-looking defaults than some modern desktops", "Still worth testing on very old hardware"],
+        facts: ["Linux Mint publishes MATE as an official edition.", "MATE follows a traditional desktop metaphor."],
+        sources: [
+          ["Linux Mint downloads", "https://linuxmint.com/download.php"],
+          ["MATE desktop", "https://mate-desktop.org/"]
+        ]
+      },
+      {
+        id: "zorin-core",
+        name: "Zorin OS",
+        variant: "Core",
+        family: "Ubuntu family",
+        tags: ["friendly", "familiar", "polished"],
+        minRam: 4,
+        load: "medium",
+        skill: 0,
+        updates: ["stable"],
+        maintenance: ["hands-off"],
+        desktopStyle: ["traditional", "modern"],
+        uses: ["general", "education", "creative"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "low",
+        install: "guided",
+        summary: "A polished, familiar choice for someone moving from Windows or macOS who wants a gentle first Linux experience.",
+        strengths: ["Familiar desktop layouts", "Beginner-friendly presentation", "Good everyday software starting point"],
+        tradeoffs: ["The richer desktop is not ideal for very old machines", "Some optional features are edition-specific"],
+        facts: ["Zorin describes itself as an alternative to Windows and macOS.", "Zorin emphasizes a familiar and simple user experience."],
+        sources: [
+          ["Zorin OS", "https://zorin.com/os/"],
+          ["Zorin OS downloads", "https://zorin.com/os/download/"]
+        ]
+      },
+      {
+        id: "popos-cosmic",
+        name: "Pop!_OS",
+        variant: "COSMIC",
+        family: "Ubuntu family",
+        tags: ["developer-friendly", "modern", "auto-tiling"],
+        minRam: 4,
+        load: "full",
+        skill: 0,
+        updates: ["stable", "balanced"],
+        maintenance: ["hands-off", "moderate"],
+        desktopStyle: ["modern", "tiling"],
+        uses: ["development", "gaming", "creative", "general"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "low",
+        install: "guided",
+        summary: "A productivity-focused desktop with COSMIC tiling features, useful for developers, creators, and modern hardware.",
+        strengths: ["Developer and creator-oriented defaults", "Keyboard and automatic window tiling options", "Guided installation"],
+        tradeoffs: ["Full desktop needs a reasonably capable machine", "COSMIC is newer than long-established desktop environments"],
+        facts: ["System76 describes Pop!_OS as a tool for developers, makers, and computer science professionals.", "System76 documents automatic window tiling in Pop!_OS."],
+        sources: [
+          ["Pop!_OS", "https://system76.com/pop"],
+          ["COSMIC desktop", "https://system76.com/cosmic"]
+        ]
+      },
+      {
+        id: "xubuntu-xfce",
+        name: "Xubuntu",
+        variant: "Xfce",
+        family: "Ubuntu family",
+        tags: ["lightweight", "friendly", "practical"],
+        minRam: 2,
+        load: "light",
+        skill: 0,
+        updates: ["stable"],
+        maintenance: ["hands-off", "moderate"],
+        desktopStyle: ["traditional", "minimal"],
+        uses: ["general", "education", "development"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "low",
+        install: "guided",
+        summary: "A lightweight Ubuntu flavor with a familiar Xfce workflow for everyday computing and older hardware.",
+        strengths: ["Light desktop with a conventional workflow", "Ubuntu documentation and package ecosystem", "Good practical middle ground"],
+        tradeoffs: ["Older machines still need live-USB testing", "Less visually elaborate than GNOME or Plasma"],
+        facts: ["Xubuntu describes itself as lightweight and suitable for making the most of a machine.", "Xubuntu uses the Xfce desktop environment."],
+        sources: [
+          ["Xubuntu", "https://xubuntu.org/"],
+          ["Xubuntu downloads", "https://xubuntu.org/download/"]
+        ]
+      },
+      {
+        id: "lubuntu-lxqt",
+        name: "Lubuntu",
+        variant: "LXQt",
+        family: "Ubuntu family",
+        tags: ["very light", "simple", "efficient"],
+        minRam: 2,
+        load: "light",
+        skill: 0,
+        updates: ["stable"],
+        maintenance: ["hands-off", "moderate"],
+        desktopStyle: ["traditional", "minimal"],
+        uses: ["general", "education", "privacy"],
+        graphics: ["integrated", "amd", "mixed"],
+        hardwareRisk: "low",
+        install: "guided",
+        summary: "A lean Ubuntu flavor that keeps a complete daily-use system responsive on modest machines.",
+        strengths: ["Lightweight LXQt desktop", "Essential daily-use applications", "Good candidate for older laptops"],
+        tradeoffs: ["Fewer visual effects and conveniences by default", "Very old hardware may still have driver limits"],
+        facts: ["Lubuntu identifies itself as an official Ubuntu flavor using LXQt.", "The project describes its goal as a lightweight but functional system."],
+        sources: [
+          ["Lubuntu", "https://lubuntu.me/"],
+          ["Lubuntu downloads", "https://lubuntu.me/downloads/"]
+        ]
+      },
+      {
+        id: "mx-xfce",
+        name: "MX Linux",
+        variant: "Xfce",
+        family: "Debian family",
+        tags: ["midweight", "stable", "practical"],
+        minRam: 2,
+        load: "light",
+        skill: 1,
+        updates: ["stable"],
+        maintenance: ["hands-off", "moderate"],
+        desktopStyle: ["traditional", "minimal"],
+        uses: ["general", "education", "privacy", "development"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "low",
+        install: "guided",
+        summary: "A stable, midweight Debian-based desktop with practical tools and a strong older-hardware story.",
+        strengths: ["Xfce aims to be fast and low-resource", "Useful graphical administration tools", "Stable Debian base"],
+        tradeoffs: ["Some defaults are more opinionated than plain Debian", "New hardware may need the AHS image"],
+        facts: ["MX Linux describes its Xfce edition as midweight, fast, and low-resource.", "MX provides separate images for standard and newer hardware support."],
+        sources: [
+          ["MX Linux", "https://mxlinux.org/"],
+          ["MX Linux downloads", "https://mxlinux.org/download-links/"]
+        ]
+      },
+      {
+        id: "antix-icewm",
+        name: "antiX",
+        variant: "IceWM / lightweight session",
+        family: "Debian family",
+        tags: ["very light", "old hardware", "hands-on"],
+        minRam: 1,
+        load: "light",
+        skill: 1,
+        updates: ["stable"],
+        maintenance: ["moderate", "hands-on"],
+        desktopStyle: ["minimal", "traditional"],
+        uses: ["general", "privacy", "education"],
+        graphics: ["integrated", "amd", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "A very lightweight Debian Stable-based option for aging 32-bit or low-resource computers.",
+        strengths: ["Designed for old and new x86 computers", "Fast, lightweight environment", "Can revive hardware that full desktops cannot"],
+        tradeoffs: ["More manual polish than beginner-focused distros", "Some modern applications may not support very old hardware"],
+        facts: ["antiX describes itself as fast, lightweight, and based on Debian Stable.", "antiX offers both 64-bit and 32-bit downloads."],
+        sources: [
+          ["antiX Linux", "https://antixlinux.com/"],
+          ["antiX downloads", "https://antixlinux.com/download/"]
+        ]
+      },
+      {
+        id: "q4os-trinity",
+        name: "Q4OS",
+        variant: "Trinity",
+        family: "Debian family",
+        tags: ["lightweight", "traditional", "32-bit option"],
+        minRam: 2,
+        load: "light",
+        skill: 0,
+        updates: ["stable"],
+        maintenance: ["hands-off", "moderate"],
+        desktopStyle: ["traditional", "minimal"],
+        uses: ["general", "education"],
+        graphics: ["integrated", "amd", "mixed"],
+        hardwareRisk: "low",
+        install: "guided",
+        summary: "A Debian-based desktop with a classic look and low hardware requirements, including older-machine options.",
+        strengths: ["Lightweight Trinity desktop", "Familiar traditional layout", "Official 32-bit installation media"],
+        tradeoffs: ["Smaller community than Ubuntu or Mint", "Trinity looks and behaves differently from modern desktops"],
+        facts: ["Q4OS describes itself as lightweight and user-friendly with Plasma and Trinity desktops.", "Q4OS publishes 32-bit installation media."],
+        sources: [
+          ["Q4OS", "https://www.q4os.org/"],
+          ["Q4OS downloads", "https://www.q4os.org/downloads1.html"]
+        ]
+      },
+      {
+        id: "cachyos-kde",
+        name: "CachyOS",
+        variant: "KDE Plasma",
+        family: "Arch family",
+        tags: ["performance", "rolling", "gaming"],
+        minRam: 4,
+        load: "full",
+        skill: 2,
+        updates: ["rolling"],
+        maintenance: ["moderate", "hands-on"],
+        desktopStyle: ["modern", "traditional"],
+        uses: ["gaming", "development", "creative"],
+        graphics: ["amd", "nvidia", "integrated", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "A performance-oriented Arch family choice for users who want current packages and tuned defaults.",
+        strengths: ["Performance-focused defaults", "Graphical installer and multiple desktop choices", "Strong fit for gaming or fast modern hardware"],
+        tradeoffs: ["Rolling updates need active maintenance", "Performance tuning is not a substitute for testing your exact hardware"],
+        facts: ["CachyOS describes itself as a performance-optimized Arch-based distribution.", "The project documents architecture-specific optimizations and multiple desktop options."],
+        sources: [
+          ["CachyOS", "https://cachyos.org/"],
+          ["CachyOS downloads", "https://cachyos.org/download/"]
+        ]
+      },
+      {
+        id: "endeavouros-xfce",
+        name: "EndeavourOS",
+        variant: "Xfce",
+        family: "Arch family",
+        tags: ["Arch-based", "community", "hands-on"],
+        minRam: 2,
+        load: "light",
+        skill: 2,
+        updates: ["rolling"],
+        maintenance: ["moderate", "hands-on"],
+        desktopStyle: ["traditional", "minimal", "tiling"],
+        uses: ["development", "education", "privacy", "general"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "A community-oriented, terminal-friendly way to enter the Arch ecosystem with a graphical installer.",
+        strengths: ["Closer to an Arch learning experience", "Graphical installer lowers the initial barrier", "Choice of desktop and window-manager setups"],
+        tradeoffs: ["Still a rolling Arch-based system", "You need to read documentation and maintain it actively"],
+        facts: ["EndeavourOS describes itself as terminal-centric and Arch-based.", "The project provides a graphical installer for supported releases."],
+        sources: [
+          ["EndeavourOS", "https://endeavouros.com/"],
+          ["EndeavourOS downloads", "https://endeavouros.com/latest-release/"]
+        ]
+      },
+      {
+        id: "manjaro-kde",
+        name: "Manjaro",
+        variant: "KDE Plasma",
+        family: "Arch family",
+        tags: ["Arch-based", "accessible", "rolling"],
+        minRam: 4,
+        load: "full",
+        skill: 1,
+        updates: ["rolling", "balanced"],
+        maintenance: ["moderate"],
+        desktopStyle: ["traditional", "modern"],
+        uses: ["general", "development", "gaming", "creative"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "An approachable Arch-based desktop with graphical tools and a familiar KDE workflow.",
+        strengths: ["More accessible starting point than a manual Arch install", "KDE is configurable and familiar", "Broad desktop and hardware choices"],
+        tradeoffs: ["Rolling updates still need care", "It is not identical to Arch Linux despite sharing the family"],
+        facts: ["Manjaro says it makes Arch's flexibility more accessible to a wider audience.", "Manjaro offers multiple desktop environments."],
+        sources: [
+          ["Manjaro", "https://manjaro.org/"],
+          ["Manjaro downloads", "https://manjaro.org/products/download/x86/"]
+        ]
+      },
+      {
+        id: "nixos-plasma",
+        name: "NixOS",
+        variant: "KDE Plasma",
+        family: "NixOS",
+        tags: ["declarative", "reproducible", "advanced"],
+        minRam: 4,
+        load: "full",
+        skill: 3,
+        updates: ["stable", "rolling"],
+        maintenance: ["hands-on"],
+        desktopStyle: ["modern", "traditional"],
+        uses: ["development", "privacy", "education"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "flexible",
+        summary: "An advanced choice for users who want declarative configuration, reproducible environments, and rollback-friendly system management.",
+        strengths: ["System configuration can be described as code", "Reproducible developer environments", "Strong fit for technically curious power users"],
+        tradeoffs: ["The learning curve is real", "Troubleshooting follows NixOS concepts rather than ordinary package-manager habits"],
+        facts: ["NixOS describes its approach as reproducible, declarative, and reliable.", "NixOS supports system generations and rollback-oriented workflows."],
+        sources: [
+          ["NixOS", "https://nixos.org/"],
+          ["NixOS Wiki", "https://wiki.nixos.org/wiki/NixOS"]
+        ]
+      },
+      {
+        id: "solus-budgie",
+        name: "Solus",
+        variant: "Budgie",
+        family: "Solus",
+        tags: ["curated", "desktop-focused", "developer-friendly"],
+        minRam: 4,
+        load: "medium",
+        skill: 1,
+        updates: ["balanced"],
+        maintenance: ["hands-off", "moderate"],
+        desktopStyle: ["modern", "traditional"],
+        uses: ["general", "development", "creative"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "A desktop-focused distribution with a polished Budgie experience and useful developer tooling.",
+        strengths: ["Curated desktop experience", "Budgie is modern but approachable", "Solus highlights developer workflows"],
+        tradeoffs: ["Smaller ecosystem than Debian or Ubuntu", "Check application availability before committing"],
+        facts: ["Solus describes Budgie as its curated experience for modern devices.", "Solus also offers Xfce for lower-end devices."],
+        sources: [
+          ["Solus", "https://getsol.us/"],
+          ["Solus editions", "https://getsol.us/download/"]
+        ]
+      },
+      {
+        id: "tails-gnome",
+        name: "Tails",
+        variant: "GNOME / portable USB system",
+        family: "Debian family",
+        tags: ["privacy", "portable", "special-purpose"],
+        minRam: 4,
+        load: "full",
+        skill: 1,
+        updates: ["stable"],
+        maintenance: ["moderate"],
+        desktopStyle: ["modern"],
+        uses: ["privacy"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "A privacy-focused live USB operating system for sensitive sessions, not a normal replacement for every daily desktop.",
+        strengths: ["Designed to run from a USB stick", "Routes applications through Tor", "Leaves no trace on the computer after shutdown by default"],
+        tradeoffs: ["Not the best choice for ordinary installed daily use", "Tor and live-USB workflows can be slower or less convenient"],
+        facts: ["Tails describes itself as a portable operating system that protects against surveillance and censorship.", "Tails is built on Debian, Tor, GNOME, and privacy tools."],
+        sources: [
+          ["Tails", "https://tails.net/"],
+          ["Tails documentation", "https://tails.net/doc/index.en.html"]
+        ]
+      },
+      {
+        id: "parrot-home-mate",
+        name: "Parrot OS",
+        variant: "Home Edition",
+        family: "Debian family",
+        tags: ["privacy", "development", "rolling"],
+        minRam: 4,
+        load: "medium",
+        skill: 2,
+        updates: ["rolling", "balanced"],
+        maintenance: ["moderate", "hands-on"],
+        desktopStyle: ["traditional", "modern"],
+        uses: ["privacy", "development", "education"],
+        graphics: ["integrated", "amd", "nvidia", "mixed"],
+        hardwareRisk: "normal",
+        install: "guided",
+        summary: "A Debian-based privacy and development platform; the Home edition avoids preinstalling the full security-tool collection.",
+        strengths: ["Home edition targets daily use, privacy, and software development", "Security tools can be added when needed", "Familiar desktop workflow"],
+        tradeoffs: ["Security-focused defaults can be unnecessary for ordinary users", "Rolling updates require routine maintenance"],
+        facts: ["Parrot documents Home Edition as intended for daily use, privacy, and software development.", "Parrot says the Home and Security editions differ mainly in preinstalled tools."],
+        sources: [
+          ["Parrot OS", "https://www.parrotsec.org/"],
+          ["Parrot editions", "https://www.parrotsec.org/how-it-works/"]
+        ]
+      }
+    ];
+
+    var experienceIndex = {
+      beginner: 0,
+      casual: 1,
+      intermediate: 2,
+      advanced: 3
+    };
+
+    var presets = {
+      "old-laptop": {
+        experience: "beginner",
+        ram: "4",
+        cpu: "old",
+        graphics: "integrated",
+        use: "general",
+        updates: "stable",
+        maintenance: "hands-off",
+        desktop: "traditional",
+        hardware: "cautious",
+        install: "guided"
+      },
+      gaming: {
+        experience: "casual",
+        ram: "16",
+        cpu: "high",
+        graphics: "nvidia",
+        use: "gaming",
+        updates: "balanced",
+        maintenance: "moderate",
+        desktop: "modern",
+        hardware: "normal",
+        install: "guided"
+      },
+      developer: {
+        experience: "intermediate",
+        ram: "16",
+        cpu: "modern",
+        graphics: "integrated",
+        use: "development",
+        updates: "balanced",
+        maintenance: "moderate",
+        desktop: "any",
+        hardware: "normal",
+        install: "flexible"
+      },
+      "power-user": {
+        experience: "advanced",
+        ram: "16",
+        cpu: "modern",
+        graphics: "amd",
+        use: "development",
+        updates: "rolling",
+        maintenance: "hands-on",
+        desktop: "tiling",
+        hardware: "experimental",
+        install: "manual"
+      }
+    };
+
+    var labels = {
+      experience: {
+        beginner: "new to Linux",
+        casual: "some Linux experience",
+        intermediate: "comfortable with the terminal",
+        advanced: "advanced Linux user"
+      },
+      ram: {
+        "2": "2 GB or less",
+        "4": "4 GB",
+        "8": "8 GB",
+        "16": "16 GB",
+        "32": "32 GB or more"
+      },
+      cpu: {
+        old: "an older processor",
+        modest: "a mid-range processor",
+        modern: "a modern processor",
+        high: "a high-end processor"
+      },
+      graphics: {
+        integrated: "integrated graphics",
+        amd: "AMD graphics",
+        nvidia: "NVIDIA graphics",
+        mixed: "unknown or mixed graphics"
+      },
+      use: {
+        general: "everyday use",
+        development: "programming",
+        gaming: "gaming",
+        creative: "creative work",
+        privacy: "privacy and learning"
+      },
+      updates: {
+        stable: "stable updates",
+        balanced: "current but practical updates",
+        rolling: "rolling updates",
+        immutable: "image-based updates"
+      },
+      maintenance: {
+        "hands-off": "low maintenance",
+        moderate: "routine maintenance",
+        "hands-on": "hands-on maintenance"
+      },
+      desktop: {
+        traditional: "a traditional desktop",
+        modern: "a modern desktop",
+        minimal: "a minimal desktop",
+        tiling: "a keyboard-driven tiling setup",
+        any: "any desktop style"
+      },
+      hardware: {
+        cautious: "a cautious hardware choice",
+        normal: "a normal amount of testing",
+        experimental: "newer or experimental options"
+      },
+      install: {
+        guided: "a guided installer",
+        flexible: "a detailed installer guide",
+        manual: "a manual build"
+      }
+    };
+
+    var openSourcePipeline = null;
+    var openSourceModelId = "onnx-community/SmolLM2-135M-Instruct-ONNX-MHA";
+    var openSourceModelName = "SmolLM2 135M Instruct";
+    var openSourceWorker = null;
+    var workerRequestNumber = 0;
+    var workerRequests = {};
+    var modelLoadPromise = null;
+    var currentRecommendation = null;
+    var modelBusy = false;
+    var aiTimerHandle = null;
+    var aiTimerStartedAt = 0;
+    var aiTimerPhase = "waiting";
+
+    function setAiStatus(message) {
+      getElement("aiStatus").textContent = message;
+    }
+
+    function setAiProgress(value) {
+      var safeValue = clamp(Number(value) || 0, 0, 100);
+      getElement("aiProgressFill").style.width = safeValue + "%";
+    }
+
+    function formatElapsed(seconds) {
+      var safeSeconds = Math.max(0, Math.floor(Number(seconds) || 0));
+      var minutes = Math.floor(safeSeconds / 60);
+      var remainder = safeSeconds % 60;
+      return String(minutes).padStart(2, "0") + ":" + String(remainder).padStart(2, "0");
+    }
+
+    function updateAiTimer() {
+      if (!aiTimerStartedAt) {
+        getElement("aiElapsed").textContent = "Elapsed: 00:00 · waiting";
+        return;
+      }
+      var elapsed = (Date.now() - aiTimerStartedAt) / 1000;
+      getElement("aiElapsed").textContent = "Elapsed: " + formatElapsed(elapsed) + " · " + aiTimerPhase;
+    }
+
+    function startAiTimer(phase) {
+      if (aiTimerHandle) window.clearInterval(aiTimerHandle);
+      aiTimerStartedAt = Date.now();
+      aiTimerPhase = phase;
+      updateAiTimer();
+      aiTimerHandle = window.setInterval(updateAiTimer, 1000);
+    }
+
+    function stopAiTimer(completion) {
+      if (aiTimerHandle) window.clearInterval(aiTimerHandle);
+      aiTimerHandle = null;
+      if (aiTimerStartedAt) {
+        var elapsed = (Date.now() - aiTimerStartedAt) / 1000;
+        getElement("aiElapsed").textContent = "Elapsed: " + formatElapsed(elapsed) + " · " + completion;
+      } else {
+        updateAiTimer();
+      }
+      aiTimerStartedAt = 0;
+      aiTimerPhase = "waiting";
+    }
+
+    function modelProgress(progress) {
+      var percent = progress && typeof progress.progress === "number" ? progress.progress : 0;
+      if (percent <= 1) percent *= 100;
+      setAiProgress(percent);
+      var detail = progress && (progress.text || progress.status) ? (progress.text || progress.status) : "";
+      if (detail) {
+        setAiStatus("LOADING LOCAL CPU MODEL... " + Math.round(percent) + "% " + detail);
+      } else {
+        setAiStatus("LOADING LOCAL CPU MODEL... " + Math.round(percent) + "%");
+      }
+    }
+
+    function friendlyModelError(error) {
+      var message = error && error.message ? error.message : String(error || "Unknown model error");
+      if (/NetworkError|Failed to fetch|Load failed|fetch resource/i.test(message)) {
+        return "The browser could not download the local model. Run the site with http://localhost:8000 instead of opening index.html directly, check the internet connection, allow cdn.jsdelivr.net and huggingface.co, then press RETRY LOCAL MODEL.";
+      }
+      if (/chat_template|apply_chat_template/i.test(message)) {
+        return "The browser could not apply the model chat template. Reload the updated page; the worker includes a plain-text prompt fallback.";
+      }
+      return message;
+    }
+
+    function rejectWorkerRequests(error) {
+      Object.keys(workerRequests).forEach(function (requestId) {
+        workerRequests[requestId].reject(error);
+        delete workerRequests[requestId];
+      });
+    }
+
+    function handleModelWorkerMessage(event) {
+      var message = event.data || {};
+      if (message.type === "progress") {
+        modelProgress({
+          progress: message.progress,
+          text: message.detail || ""
+        });
+        return;
+      }
+      if (message.type === "status") {
+        setAiStatus(message.message || "WORKING IN THE LOCAL MODEL WORKER...");
+        return;
+      }
+
+      var request = workerRequests[message.requestId];
+      if (!request) return;
+      delete workerRequests[message.requestId];
+
+      if (message.type === "error") {
+        request.reject(new Error(message.message || "The local model worker failed."));
+      } else if (message.type === "ready") {
+        request.resolve(true);
+      } else if (message.type === "result") {
+        request.resolve(message.output);
+      }
+    }
+
+    function ensureModelWorker() {
+      if (openSourceWorker) return openSourceWorker;
+      if (typeof Worker === "undefined") {
+        throw new Error("This browser does not support Web Workers. The local model cannot run without blocking the page.");
+      }
+
+      openSourceWorker = new Worker("model-worker.js");
+      openSourceWorker.onmessage = handleModelWorkerMessage;
+      openSourceWorker.onerror = function (event) {
+        var message = event && event.message ? event.message : "The local model worker stopped unexpectedly.";
+        var workerError = new Error(message);
+        if (openSourceWorker) openSourceWorker.terminate();
+        openSourceWorker = null;
+        openSourcePipeline = null;
+        rejectWorkerRequests(workerError);
+      };
+      return openSourceWorker;
+    }
+
+    function requestModelWorker(type, payload) {
+      var worker = ensureModelWorker();
+      var requestId = ++workerRequestNumber;
+      return new Promise(function (resolve, reject) {
+        workerRequests[requestId] = { resolve: resolve, reject: reject };
+        worker.postMessage(Object.assign({ type: type, requestId: requestId }, payload || {}));
+      });
+    }
+
+    async function loadOpenSourceModel() {
+      if (openSourcePipeline) return openSourcePipeline;
+      if (modelLoadPromise) return modelLoadPromise;
+      if (typeof navigator !== "undefined" && navigator.onLine === false) {
+        throw new Error("The browser is offline. Connect to the internet for the first model download, then try again.");
+      }
+
+      modelBusy = true;
+      getElement("loadModelBtn").disabled = true;
+      getElement("loadModelBtn").textContent = "LOADING MODEL...";
+      getElement("generateAiBtn").disabled = true;
+      setAiProgress(0);
+      startAiTimer("model loading");
+      setAiStatus("STARTING THE LOCAL CPU/WASM MODEL WORKER...");
+
+      modelLoadPromise = (async function () {
+        try {
+          ensureModelWorker();
+          setAiStatus("DOWNLOADING " + openSourceModelName + " IN THE BACKGROUND... first load may take a few minutes and is cached afterward.");
+          await requestModelWorker("load", {
+            modelId: openSourceModelId,
+            dtype: "q8"
+          });
+          openSourcePipeline = true;
+          setAiProgress(100);
+          getElement("loadModelBtn").textContent = "LOCAL MODEL READY";
+          setAiStatus("OPEN-SOURCE CPU/WASM MODEL READY. Generation will run in a background worker, so the page stays responsive.");
+          if (currentRecommendation) getElement("generateAiBtn").disabled = false;
+          return openSourcePipeline;
+        } catch (error) {
+          openSourcePipeline = null;
+          setAiProgress(0);
+          throw new Error(friendlyModelError(error));
+        } finally {
+          stopAiTimer(openSourcePipeline ? "model ready" : "model failed");
+          modelBusy = false;
+          getElement("loadModelBtn").disabled = Boolean(openSourcePipeline);
+          modelLoadPromise = null;
+        }
+      })();
+
+      return modelLoadPromise;
+    }
+
+    function structuredSchemaText() {
+      return JSON.stringify({
+        schema_version: "penguin-picker-1.0",
+        recommendation_overview: "short explanation",
+        ai_generated_explanation: "short explanation returned by the local model",
+        primary_recommendation: {
+          name: "Linux distribution",
+          variant: "desktop or window manager",
+          family: "distribution family",
+          fit_score: 0,
+          summary: "why this is a practical match",
+          tags: ["tag"]
+        },
+        desktop_or_twm: "desktop environment or tiling window manager",
+        alternatives: [
+          { name: "alternative distribution", variant: "desktop or window manager", fit_score: 0, summary: "short reason" }
+        ],
+        why_it_fits: ["reason"],
+        tradeoffs: ["tradeoff"],
+        live_usb_checklist: ["test item"],
+        official_facts: ["fact from the supplied catalog"],
+        official_sources: [
+          { name: "official source name", url: "https://example.org/" }
+        ]
+      }, null, 2);
+    }
+
+    function modelOutputSchemaText() {
+      return JSON.stringify({
+        recommendation_overview: "one short explanation",
+        primary_recommendation: {
+          name: "exact catalog name",
+          variant: "exact catalog desktop or window manager",
+          fit_score: 0,
+          summary: "one short reason"
+        },
+        desktop_or_twm: "exact desktop or window manager",
+        alternatives: [
+          { name: "exact catalog name", variant: "desktop or window manager", fit_score: 0, summary: "short reason" },
+          { name: "exact catalog name", variant: "desktop or window manager", fit_score: 0, summary: "short reason" }
+        ],
+        why_it_fits: ["short reason", "short reason"],
+        tradeoffs: ["short caution"],
+        live_usb_checklist: ["short test item", "short test item"]
+      }, null, 2);
+    }
+
+    function modelNarrativeFormatText() {
+      return [
+        "OVERVIEW: one short sentence explaining the selected match",
+        "REASONS: reason one | reason two",
+        "TRADEOFF: one short caution",
+        "TEST: one short live-USB test"
+      ].join("\n");
+    }
+
+    function liveUSBChecklist() {
+      return [
+        "Test Wi-Fi and wired networking.",
+        "Test sound, microphone, webcam, and Bluetooth.",
+        "Test sleep/wake, display brightness, and graphics acceleration.",
+        "Back up personal files before installing."
+      ];
+    }
+
+    function profileForJSON(profile) {
+      return {
+        experience: labels.experience[profile.experience],
+        ram: labels.ram[profile.ram],
+        cpu: labels.cpu[profile.cpu],
+        graphics: labels.graphics[profile.graphics],
+        purpose: labels.use[profile.use],
+        updates: labels.updates[profile.updates],
+        maintenance: labels.maintenance[profile.maintenance],
+        desktop: labels.desktop[profile.desktop],
+        hardware_risk: labels.hardware[profile.hardware],
+        installation: labels.install[profile.install]
+      };
+    }
+
+    function buildStructuredReport(profile, ranked) {
+      var best = ranked[0];
+      var item = best.item;
+      var reasons = best.positives.concat(item.strengths).slice(0, 4);
+      var cautions = best.cautions.concat(item.tradeoffs).slice(0, 3);
+      return {
+        schema_version: "penguin-picker-1.0",
+        generated_by: "Penguin Picker verified catalog context",
+        input_profile: profileForJSON(profile),
+        ai_generated_explanation: "",
+        recommendation_overview: item.summary,
+        primary_recommendation: {
+          name: item.name,
+          variant: item.variant,
+          family: item.family,
+          fit_score: best.score,
+          summary: item.summary,
+          tags: item.tags
+        },
+        desktop_or_twm: item.variant,
+        alternatives: ranked.slice(1, 5).map(function (entry) {
+          return {
+            name: entry.item.name,
+            variant: entry.item.variant,
+            fit_score: entry.score,
+            summary: entry.item.summary
+          };
+        }),
+        why_it_fits: reasons,
+        tradeoffs: cautions,
+        live_usb_checklist: liveUSBChecklist(),
+        official_facts: item.facts,
+        official_sources: item.sources.map(function (source) {
+          return { name: source[0], url: source[1] };
+        })
+      };
+    }
+
+    function textOr(value, fallback) {
+      return typeof value === "string" && value.trim() ? value.trim() : fallback;
+    }
+
+    function numberOr(value, fallback) {
+      var parsed = Number(value);
+      return Number.isFinite(parsed) ? clamp(Math.round(parsed), 0, 99) : fallback;
+    }
+
+    function stringArrayOr(value, fallback) {
+      if (!Array.isArray(value)) return fallback.slice();
+      var result = value.map(function (entry) {
+        return typeof entry === "string" ? entry.trim() : "";
+      }).filter(Boolean);
+      return result.length ? result : fallback.slice();
+    }
+
+    function normalizeSources(value, fallback) {
+      var sourceList = Array.isArray(value) ? value : fallback;
+      var fallbackURLs = (Array.isArray(fallback) ? fallback : []).map(function (source) {
+        return Array.isArray(source) ? source[1] : source && source.url;
+      }).filter(function (url) {
+        return typeof url === "string" && /^https?:\/\//i.test(url);
+      });
+      var result = sourceList.map(function (source) {
+        var name = Array.isArray(source) ? source[0] : source && source.name;
+        var url = Array.isArray(source) ? source[1] : source && source.url;
+        if (typeof url !== "string" || !/^https?:\/\//i.test(url) || /example\.org/i.test(url)) return null;
+        if (fallbackURLs.length && fallbackURLs.indexOf(url) === -1) return null;
+        return {
+          name: textOr(name, "Official project source"),
+          url: url
+        };
+      }).filter(Boolean);
+      return result.length ? result : fallback.slice();
+    }
+
+    function normalizeRecommendationReport(report, fallback) {
+      var source = report && typeof report === "object" && !Array.isArray(report) ? report : {};
+      var backup = fallback;
+      var primary = source.primary_recommendation && typeof source.primary_recommendation === "object" ? source.primary_recommendation : {};
+      var backupPrimary = backup.primary_recommendation;
+      var backupAlternatives = backup.alternatives || [];
+      var alternatives = Array.isArray(source.alternatives) && source.alternatives.length ? source.alternatives : backupAlternatives;
+
+      return {
+        schema_version: "penguin-picker-1.0",
+        generated_by: textOr(source.generated_by, backup.generated_by),
+        input_profile: backup.input_profile,
+        ai_generated_explanation: textOr(source.ai_generated_explanation, backup.ai_generated_explanation || ""),
+        recommendation_overview: textOr(source.recommendation_overview, backup.recommendation_overview),
+        primary_recommendation: {
+          name: textOr(primary.name, backupPrimary.name),
+          variant: textOr(primary.variant, backupPrimary.variant),
+          family: textOr(primary.family, backupPrimary.family),
+          fit_score: numberOr(primary.fit_score, backupPrimary.fit_score),
+          summary: textOr(primary.summary, backupPrimary.summary),
+          tags: stringArrayOr(primary.tags, backupPrimary.tags)
+        },
+        desktop_or_twm: textOr(source.desktop_or_twm, backup.desktop_or_twm),
+        alternatives: alternatives.slice(0, 4).map(function (entry, index) {
+          var backupEntry = backupAlternatives[index] || backupAlternatives[0];
+          return {
+            name: textOr(entry && entry.name, backupEntry.name),
+            variant: textOr(entry && entry.variant, backupEntry.variant),
+            fit_score: numberOr(entry && entry.fit_score, backupEntry.fit_score),
+            summary: textOr(entry && entry.summary, backupEntry.summary)
+          };
+        }),
+        why_it_fits: stringArrayOr(source.why_it_fits, backup.why_it_fits),
+        tradeoffs: stringArrayOr(source.tradeoffs, backup.tradeoffs),
+        live_usb_checklist: stringArrayOr(source.live_usb_checklist, backup.live_usb_checklist),
+        official_facts: stringArrayOr(source.official_facts, backup.official_facts),
+        official_sources: normalizeSources(source.official_sources, backup.official_sources)
+      };
+    }
+
+    function parseJSONResponse(text) {
+      var raw = String(text || "").trim();
+      var fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/i);
+      if (fenced) raw = fenced[1].trim();
+      var candidates = [];
+
+      for (var start = 0; start < raw.length; start++) {
+        if (raw[start] !== "{") continue;
+        var depth = 0;
+        var inString = false;
+        var escaped = false;
+
+        for (var index = start; index < raw.length; index++) {
+          var character = raw[index];
+          if (inString) {
+            if (escaped) {
+              escaped = false;
+            } else if (character === "\\") {
+              escaped = true;
+            } else if (character === '"') {
+              inString = false;
+            }
+            continue;
+          }
+          if (character === '"') {
+            inString = true;
+          } else if (character === "{") {
+            depth += 1;
+          } else if (character === "}") {
+            depth -= 1;
+            if (depth === 0) {
+              candidates.push(raw.slice(start, index + 1));
+              break;
+            }
+          }
+        }
+      }
+
+      var best = null;
+      var bestScore = -1;
+      var expectedKeys = [
+        "schema_version", "primary_recommendation", "desktop_or_twm",
+        "alternatives", "why_it_fits", "tradeoffs", "live_usb_checklist",
+        "official_facts", "official_sources"
+      ];
+
+      candidates.forEach(function (candidate) {
+        try {
+          var parsed = JSON.parse(candidate);
+          if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return;
+          var score = expectedKeys.reduce(function (total, key) {
+            return total + (Object.prototype.hasOwnProperty.call(parsed, key) ? 1 : 0);
+          }, 0);
+          if (score >= bestScore) {
+            best = parsed;
+            bestScore = score;
+          }
+        } catch (error) {
+          // Keep looking; the model may have included its prompt before the JSON.
+        }
+      });
+
+      return best;
+    }
+
+    function generatedTextFromPipeline(output) {
+      var first = Array.isArray(output) ? output[0] : output;
+      var generated = first && first.generated_text;
+      if (Array.isArray(generated)) {
+        var last = generated[generated.length - 1];
+        return last && typeof last.content === "string" ? last.content : JSON.stringify(last || generated);
+      }
+      return typeof generated === "string" ? generated : String(generated || "");
+    }
+
+    function cleanModelNarrative(text) {
+      var raw = String(text || "").replace(/<\|im_(?:start|end)\|>/gi, "").trim();
+      var fenced = raw.match(/```(?:text|markdown)?\s*([\s\S]*?)```/i);
+      if (fenced) raw = fenced[1].trim();
+      return raw.replace(/^\s*(?:ASSISTANT|ASSISTANT RESPONSE)\s*:?\s*/i, "").trim();
+    }
+
+    function labeledNarrativeValue(raw, label, nextLabels) {
+      var pattern = new RegExp("(?:^|\\n)\\s*(?:[-*]\\s*)?" + label + "\\s*:\\s*([\\s\\S]*?)(?=\\n\\s*(?:[-*]\\s*)?(?:" + nextLabels + ")\\s*:|$)", "i");
+      var match = raw.match(pattern);
+      return match ? match[1].trim() : "";
+    }
+
+    function compactModelText(value, maxLength) {
+      return String(value || "")
+        .replace(/^[-*\d.)\s]+/, "")
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, maxLength || 420)
+        .trim();
+    }
+
+    function narrativeList(value) {
+      return String(value || "").split(/\s*\|\s*|\n+|\s*;\s*/)
+        .map(function (entry) { return compactModelText(entry, 180); })
+        .filter(Boolean)
+        .slice(0, 3);
+    }
+
+    function parseModelNarrative(text) {
+      var raw = cleanModelNarrative(text);
+      var overview = compactModelText(labeledNarrativeValue(raw, "OVERVIEW", "REASONS?|TRADEOFF|TEST"), 420);
+      var reasons = narrativeList(labeledNarrativeValue(raw, "REASONS?", "TRADEOFF|TEST"));
+      var tradeoff = compactModelText(labeledNarrativeValue(raw, "TRADEOFF", "TEST"), 220);
+      var test = compactModelText(labeledNarrativeValue(raw, "TEST", "$"), 220);
+      var unlabeled = !overview && !reasons.length && !tradeoff && !test ? compactModelText(raw, 420) : "";
+      var combined = [overview, reasons.join(" "), tradeoff, test, unlabeled].join(" ").trim();
+      var unusable = !combined || /^(?:not valid json|invalid json|i cannot|i can't|error)\.?$/i.test(combined);
+
+      return {
+        raw: raw,
+        overview: overview || unlabeled,
+        reasons: reasons,
+        tradeoff: tradeoff,
+        test: test,
+        useful: !unusable
+      };
+    }
+
+    function plainTextMessagesPrompt(messages) {
+      return messages.map(function (message) {
+        return String(message.role || "message").toUpperCase() + ":\n" + message.content;
+      }).join("\n\n") + "\n\nASSISTANT RESPONSE:\n";
+    }
+
+    function plainTextModelPrompt(profile, ranked) {
+      return plainTextMessagesPrompt(aiMessages(profile, ranked));
+    }
+
+    function renderStructuredReport(report, label) {
+      var normalized = normalizeRecommendationReport(report, report);
+      var primary = normalized.primary_recommendation;
+      return "<div class=\"structured-report-label\">" + escapeHTML(label) + " &middot; schema " + escapeHTML(normalized.schema_version) + "</div>" +
+        "<div class=\"top-result\">" +
+          "<div>" +
+            "<div class=\"recommendation-label\">BEST MATCH FOR THIS PROFILE</div>" +
+            "<h3>" + escapeHTML(primary.name) + "</h3>" +
+            "<div class=\"variant\">with " + escapeHTML(normalized.desktop_or_twm) + " &middot; " + escapeHTML(primary.family) + "</div>" +
+            "<p class=\"summary\">" + escapeHTML(normalized.recommendation_overview) + "</p>" +
+            "<div class=\"chips\">" + primary.tags.map(function (tag) { return "<span class=\"chip\">" + escapeHTML(tag) + "</span>"; }).join("") + "</div>" +
+          "</div>" +
+          "<div class=\"score-panel\">" +
+            "<div class=\"score-number\">" + primary.fit_score + "%</div>" +
+            "<small>estimated fit</small>" +
+            "<div class=\"score-bar\"><div class=\"score-fill\" style=\"width:" + primary.fit_score + "%\"></div></div>" +
+          "</div>" +
+        "</div>" +
+        "<div class=\"reason-grid\">" +
+          "<div class=\"reason-box\"><h4>Why it matched</h4>" + listHTML(normalized.why_it_fits) + "</div>" +
+          "<div class=\"reason-box caution\"><h4>Before you install</h4>" + listHTML(normalized.tradeoffs) + "</div>" +
+        "</div>" +
+        "<h3 class=\"section-heading\">Other good paths</h3>" +
+        "<div class=\"alternatives\">" +
+          normalized.alternatives.map(function (entry) {
+            return "<article class=\"alternative\">" +
+              "<span class=\"mini-score\">" + entry.fit_score + "% match</span>" +
+              "<h3>" + escapeHTML(entry.name) + "</h3>" +
+              "<div class=\"variant\">" + escapeHTML(entry.variant) + "</div>" +
+              "<p>" + escapeHTML(entry.summary) + "</p>" +
+            "</article>";
+          }).join("") +
+        "</div>" +
+        "<div class=\"info-grid\">" +
+          "<div class=\"info-card\"><h3>Live-USB check list</h3>" + listHTML(normalized.live_usb_checklist) + "<p><strong>Do not skip the backup.</strong> A recommendation cannot replace testing your exact machine.</p></div>" +
+          "<div class=\"info-card\"><h3>Official fact cards</h3><div class=\"facts\">" + listHTML(normalized.official_facts) + "</div><div class=\"sources\"><strong>Read more:</strong>" + linkListHTML(normalized.official_sources.map(function (source) { return [source.name, source.url]; })) + "</div></div>" +
+        "</div>";
+    }
+
+    function aiMessages(profile, ranked) {
+      var candidates = ranked.slice(0, 4).map(function (entry, index) {
+        return (index + 1) + ". " + entry.item.name + " + " + entry.item.variant + " (" + entry.score + "%) - " + entry.item.summary;
+      }).join("\n");
+      var best = ranked[0].item;
+      var facts = best.facts.map(function (fact) { return "- " + fact; }).join("\n");
+
+      return [
+        {
+          role: "system",
+          content: "You are Penguin Picker 2000, a cautious Linux distribution specialist running locally on the user's computer. Use only the supplied profile, ranked catalog entries, and fact cards. Never guarantee hardware compatibility, invent benchmarks, or claim that popularity proves quality. Return exactly four short labeled lines in the requested format. Do not return JSON, Markdown, a preamble, or extra commentary."
+        },
+        {
+          role: "user",
+          content: "PERSONA PATTERN\nAct as a cautious Linux distribution and desktop specialist.\n\nFEW-SHOT PATTERN\nOld laptop -> favor a light desktop and explain the tradeoff. Gaming PC -> mention gaming support and update style. Advanced rolling user -> clearly label maintenance cost.\n\nFACT-CHECK LIST PATTERN\nUse only the supplied catalog facts, and tell the user to verify hardware with a live USB.\n\nUSER PROFILE\n" + JSON.stringify(profileForJSON(profile), null, 2) + "\n\nSELECTED CATALOG MATCH\n" + best.name + " + " + best.variant + "\n" + best.summary + "\n\nRANKED CATALOG CONTEXT\n" + candidates + "\n\nFACT CARDS\n" + facts + "\n\nTASK\nExplain the selected catalog match. Do not choose a different distro. Use exact catalog names. Keep every line short.\n\nOUTPUT FORMAT\n" + modelNarrativeFormatText() + "\n\nReturn exactly those four labels and nothing else."
+        }
+      ];
+    }
+
+    async function generateOpenSourceExplanation() {
+      if (!currentRecommendation) {
+        setAiStatus("Run the matcher first, then ask the local model for an explanation.");
+        return;
+      }
+      if (modelBusy) return;
+
+      try {
+        var pipeline = await loadOpenSourceModel();
+        if (!pipeline) return;
+        var aiReportSucceeded = false;
+        modelBusy = true;
+        startAiTimer("AI generation");
+        getElement("generateAiBtn").disabled = true;
+        getElement("generateAiBtn").textContent = "GENERATING...";
+        getElement("aiOutput").textContent = "LOCAL MODEL WORKER STARTED.\n\nGenerating the structured explanation in the background. The page should remain responsive.";
+        getElement("jsonStatus").textContent = "The local model is generating a short explanation...";
+        setAiStatus("GENERATING A SHORT LOCAL AI EXPLANATION ON CPU/WASM WITH " + openSourceModelName + " IN THE BACKGROUND...");
+        var messages = aiMessages(currentRecommendation.profile, currentRecommendation.ranked);
+        var reply = await requestModelWorker("generate", {
+          modelId: openSourceModelId,
+          dtype: "q8",
+          messages: messages,
+          prompt: plainTextMessagesPrompt(messages),
+          maxNewTokens: 128
+        });
+        var answer = generatedTextFromPipeline(reply);
+        var parsed = parseJSONResponse(answer);
+        var narrative = parseModelNarrative(answer);
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) narrative.useful = false;
+        var retriedAsPlainText = false;
+
+        if ((!parsed || typeof parsed !== "object" || Array.isArray(parsed)) && !narrative.useful) {
+          setAiStatus("THE LOCAL RESPONSE WAS EMPTY OR TOO SHORT. ASKING FOR A SHORT LABELED EXPLANATION...");
+          getElement("aiOutput").textContent = "LOCAL MODEL RESPONSE NEEDS A SHORTER FORMAT.\n\nAsking the instruction-tuned model for four labeled lines...";
+          var retryMessages = [
+            {
+              role: "system",
+              content: "Return exactly four short labeled lines: OVERVIEW, REASONS, TRADEOFF, and TEST. Do not return JSON or extra text."
+            },
+            {
+              role: "user",
+              content: modelNarrativeFormatText() + "\n\nUse this profile and catalog context:\n" + messages[1].content
+            }
+          ];
+          var retryReply = await requestModelWorker("generate", {
+            modelId: openSourceModelId,
+            dtype: "q8",
+            messages: retryMessages,
+            prompt: plainTextMessagesPrompt(retryMessages),
+            maxNewTokens: 128
+          });
+          answer = generatedTextFromPipeline(retryReply);
+          parsed = parseJSONResponse(answer);
+          narrative = parseModelNarrative(answer);
+          if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) narrative.useful = false;
+          retriedAsPlainText = true;
+        }
+
+        if ((!parsed || typeof parsed !== "object" || Array.isArray(parsed)) && !narrative.useful) {
+          throw new Error("The local model returned no usable explanation after the short-format retry.");
+        }
+        var report = normalizeRecommendationReport(parsed, currentRecommendation.report);
+        report.generated_by = openSourceModelName + " via local Transformers.js CPU/WASM";
+        if (narrative.useful) {
+          report.ai_generated_explanation = narrative.raw;
+          report.recommendation_overview = narrative.overview || report.recommendation_overview;
+          if (narrative.reasons.length) report.why_it_fits = narrative.reasons;
+          if (narrative.tradeoff) report.tradeoffs = [narrative.tradeoff];
+          if (narrative.test) report.live_usb_checklist = [narrative.test].concat(report.live_usb_checklist).slice(0, 4);
+        }
+        var reportLabel = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? "LOCAL SMOLLM2 STRUCTURED REPORT" : (retriedAsPlainText ? "LOCAL SMOLLM2 AI EXPLANATION (RETRY)" : "LOCAL SMOLLM2 AI EXPLANATION");
+        getElement("aiOutput").innerHTML = renderStructuredReport(report, reportLabel);
+        getElement("jsonText").textContent = JSON.stringify(report, null, 2);
+        getElement("jsonStatus").textContent = narrative.useful ? "The local model supplied the explanation; the webpage validated and wrapped it into the structured JSON report." : "Showing validated JSON returned by the local open-source model.";
+        setAiStatus(narrative.useful ? "LOCAL AI EXPLANATION COMPLETE. The response was validated and rendered in this browser." : "LOCAL JSON MODEL COMPLETE. The response was parsed and rendered in this browser.");
+        aiReportSucceeded = true;
+      } catch (error) {
+        getElement("aiOutput").textContent = "The AI-generated report could not be produced. No non-AI recommendation was substituted.\n\nReason: " + (error && error.message ? error.message : error);
+        getElement("jsonStatus").textContent = "No AI report was produced.";
+        setAiStatus("AI EXPLANATION UNAVAILABLE. " + friendlyModelError(error));
+      } finally {
+        stopAiTimer(typeof aiReportSucceeded !== "undefined" && aiReportSucceeded ? "AI report finished" : "AI report failed");
+        modelBusy = false;
+        getElement("generateAiBtn").textContent = "GENERATE AI EXPLANATION »";
+        getElement("generateAiBtn").disabled = !openSourcePipeline || !currentRecommendation;
+      }
+    }
+
+    function getElement(id) {
+      return document.getElementById(id);
+    }
+
+    function collectProfile() {
+      return {
+        experience: getElement("experience").value,
+        ram: getElement("ram").value,
+        cpu: getElement("cpu").value,
+        graphics: getElement("graphics").value,
+        use: getElement("use").value,
+        updates: getElement("updates").value,
+        maintenance: getElement("maintenance").value,
+        desktop: getElement("desktop").value,
+        hardware: getElement("hardware").value,
+        install: getElement("install").value
+      };
+    }
+
+    function applyProfile(profile) {
+      Object.keys(profile).forEach(function (key) {
+        if (getElement(key)) {
+          getElement(key).value = profile[key];
+        }
+      });
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function scoreProfile(item, profile) {
+      var score = 50;
+      var positives = [];
+      var cautions = [];
+      var ram = Number(profile.ram);
+      var userSkill = experienceIndex[profile.experience];
+      var skillGap = Math.abs(userSkill - item.skill);
+
+      function positive(points, reason) {
+        score += points * 0.45;
+        if (points > 0 && positives.length < 4) {
+          positives.push(reason);
+        }
+      }
+
+      function caution(points, reason) {
+        score -= points * 0.45;
+        if (cautions.length < 3) {
+          cautions.push(reason);
+        }
+      }
+
+      if (ram < item.minRam) {
+        caution(30, "Your " + labels.ram[profile.ram] + " is below this profile's comfortable starting point.");
+      } else if (ram <= item.minRam + 2) {
+        positive(10, "Your " + labels.ram[profile.ram] + " is close to this profile's practical range.");
+      } else {
+        positive(14, "Your " + labels.ram[profile.ram] + " gives this profile breathing room.");
+      }
+
+      if (profile.cpu === "old" && item.load === "light") {
+        positive(12, "The lighter desktop is a sensible match for an older processor.");
+      } else if (profile.cpu === "old" && (item.load === "full" || item.load === "heavy")) {
+        caution(12, "The desktop may feel heavy on an older processor.");
+      } else if (profile.cpu === "high" && (item.load === "full" || item.load === "heavy")) {
+        positive(8, "Your processor can comfortably handle this desktop's feature set.");
+      }
+
+      if (skillGap === 0) {
+        positive(11, "The learning and maintenance level closely matches your Linux experience.");
+      } else if (skillGap === 1) {
+        positive(4, "This is a reasonable next step from your current Linux experience.");
+      } else if (skillGap >= 2) {
+        caution(9, "This profile may ask for more Linux troubleshooting than you requested.");
+      }
+
+      if (item.uses.indexOf(profile.use) !== -1) {
+        positive(12, "It is commonly suited to " + labels.use[profile.use] + ".");
+      } else if (profile.use === "gaming" && item.uses.indexOf("development") !== -1) {
+        caution(6, "It can work for gaming, but gaming is not its strongest focus.");
+      }
+
+      if (item.id === "parrot-home-mate" && profile.use !== "privacy") {
+        caution(8, "Parrot's extra privacy and security focus may be unnecessary for this goal.");
+      }
+      if (item.id === "tails-gnome" && profile.use !== "privacy") {
+        caution(18, "Tails is a special-purpose portable privacy system, not a general daily desktop.");
+      }
+
+      if (item.updates.indexOf(profile.updates) !== -1) {
+        positive(10, "Its update model matches your preference for " + labels.updates[profile.updates] + ".");
+      } else if (profile.updates === "stable" && item.updates.indexOf("immutable") !== -1) {
+        positive(4, "Image-based updates can provide a stable, rollback-friendly experience.");
+      } else if (profile.updates === "rolling" && item.updates.indexOf("stable") !== -1) {
+        caution(8, "A stable release will not provide the newest packages you requested.");
+      } else if (profile.updates === "immutable" && item.updates.indexOf("immutable") === -1) {
+        caution(7, "This is a traditional package-based system, not an image-based one.");
+      }
+
+      if (item.maintenance.indexOf(profile.maintenance) !== -1) {
+        positive(9, "The maintenance level fits your preference for " + labels.maintenance[profile.maintenance] + ".");
+      } else if (profile.maintenance === "hands-off" && item.maintenance.indexOf("hands-on") !== -1) {
+        caution(10, "This choice expects more hands-on maintenance than you want.");
+      }
+
+      if (profile.desktop === "any" || item.desktopStyle.indexOf(profile.desktop) !== -1) {
+        positive(8, "The desktop style matches your preference for " + labels.desktop[profile.desktop] + ".");
+      }
+
+      if (profile.graphics === "nvidia" && item.id === "bazzite-kde") {
+        positive(8, "This profile explicitly considers modern NVIDIA gaming hardware.");
+      } else if (profile.graphics === "integrated" && item.load === "light") {
+        positive(5, "The lightweight desktop leaves more resources for integrated graphics.");
+      } else if (profile.graphics === "mixed" && item.hardwareRisk === "high") {
+        caution(6, "Unknown hardware is a reason to test this advanced setup from a live medium first.");
+      }
+
+      if (profile.hardware === "cautious" && item.hardwareRisk === "low") {
+        positive(7, "This is one of the safer profiles for a first hardware test.");
+      } else if (profile.hardware === "experimental" && item.hardwareRisk === "high") {
+        positive(6, "This gives an experienced user room to experiment.");
+      } else if (profile.hardware === "cautious" && item.hardwareRisk === "high") {
+        caution(12, "This is a poor fit for a cautious first install.");
+      }
+
+      if (profile.install === item.install) {
+        positive(5, "The installation style matches your comfort level.");
+      } else if (profile.install === "guided" && item.install === "manual") {
+        caution(8, "The installation is more manual than your preference.");
+      }
+
+      return {
+        item: item,
+        score: clamp(Math.round(score), 0, 99),
+        positives: positives,
+        cautions: cautions
+      };
+    }
+
+    function rankProfiles(profile) {
+      return profiles.map(function (item) {
+        return scoreProfile(item, profile);
+      }).sort(function (a, b) {
+        return b.score - a.score;
+      });
+    }
+
+    function escapeHTML(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function listHTML(items) {
+      return "<ul>" + items.map(function (item) {
+        return "<li>" + escapeHTML(item) + "</li>";
+      }).join("") + "</ul>";
+    }
+
+    function linkListHTML(items) {
+      return "<ul>" + items.map(function (item) {
+        return "<li><a href=\"" + item[1] + "\" target=\"_blank\" rel=\"noopener\">" + escapeHTML(item[0]) + "</a></li>";
+      }).join("") + "</ul>";
+    }
+
+    function promptFor(profile, ranked) {
+      var best = ranked[0].item;
+      var inputLines = [
+        "Experience: " + labels.experience[profile.experience],
+        "RAM: " + labels.ram[profile.ram],
+        "CPU: " + labels.cpu[profile.cpu],
+        "Graphics: " + labels.graphics[profile.graphics],
+        "Purpose: " + labels.use[profile.use],
+        "Updates: " + labels.updates[profile.updates],
+        "Maintenance: " + labels.maintenance[profile.maintenance],
+        "Desktop: " + labels.desktop[profile.desktop],
+        "Hardware risk: " + labels.hardware[profile.hardware],
+        "Install: " + labels.install[profile.install]
+      ];
+
+      return [
+        "PERSONA PATTERN",
+        "Act as a cautious Linux distribution and desktop specialist. Recommend a practical setup, explain tradeoffs, and never promise hardware compatibility without a live-USB test.",
+        "",
+        "FEW-SHOT PATTERN",
+        "Example 1: New user + 4 GB RAM + older hardware + stable updates -> Linux Mint Xfce; explain the lightweight desktop and familiar workflow.",
+        "Example 2: Gaming + modern GPU + 16 GB RAM -> Bazzite KDE; explain its gaming focus and atomic update model.",
+        "Example 3: Advanced user + rolling updates + keyboard tiling -> Arch Linux + i3; clearly label the maintenance cost.",
+        "",
+        "USER PROFILE",
+        inputLines.join("\n"),
+        "",
+        "TASK",
+        "Return one primary recommendation, two alternatives, three reasons, two tradeoffs, and a short live-USB verification checklist.",
+        "Use plain language. Recommend a distro plus a DE or tiling window manager.",
+        "OUTPUT FORMAT",
+        "Return exactly one valid JSON object matching this schema. Do not add Markdown fences or extra commentary.",
+        modelOutputSchemaText(),
+        "",
+        "FACT-CHECK LIST PATTERN",
+        "At the end, list the factual claims that should be checked against official project documentation. Do not treat DistroWatch page hits as proof of quality or market share.",
+        "",
+        "CATALOG CONTEXT",
+        "The browser supplies verified catalog facts and the selected match (" + best.name + " + " + best.variant + ") as context. The open-source browser model supplies the explanation, and the webpage wraps that explanation into the JSON report."
+      ].join("\n");
+    }
+
+    function renderResult(profile, ranked) {
+      var report = buildStructuredReport(profile, ranked);
+      var resultOutput = getElement("resultOutput");
+
+      resultOutput.innerHTML = "";
+
+      getElement("promptText").textContent = promptFor(profile, ranked);
+      getElement("jsonText").textContent = "";
+      getElement("jsonStatus").textContent = "Waiting for the AI-generated report...";
+      currentRecommendation = { profile: profile, ranked: ranked, report: report };
+      getElement("aiOutput").textContent = "AI REPORT STARTING.\n\nThe open-source model will generate the only recommendation shown on this page.";
+      getElement("generateAiBtn").disabled = true;
+      setAiProgress(0);
+      stopAiTimer("waiting for AI");
+      setAiStatus("AI MATCH STARTING. The model will generate the recommendation in the background.");
+      getElement("results").classList.add("visible");
+      getElement("statusLine").textContent = "AI MATCH STARTED. No answer or profile was sent to a server.";
+      window.setTimeout(function () {
+        getElement("results").scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 30);
+    }
+
+    function handleAIStartError(error) {
+      stopAiTimer("AI report failed");
+      getElement("loadModelBtn").textContent = "RETRY LOCAL MODEL";
+      getElement("loadModelBtn").disabled = false;
+      getElement("generateAiBtn").disabled = true;
+      getElement("aiOutput").textContent = "The AI-generated report could not start.\n\nReason: " + friendlyModelError(error);
+      getElement("jsonStatus").textContent = "No AI report was produced.";
+      setAiStatus("AI REPORT UNAVAILABLE. " + friendlyModelError(error));
+    }
+
+    function startAIReport() {
+      loadOpenSourceModel()
+        .then(function () { return generateOpenSourceExplanation(); })
+        .catch(handleAIStartError);
+    }
+
+    function resetApp() {
+      applyProfile(presets["old-laptop"]);
+      getElement("results").classList.remove("visible");
+      getElement("resultOutput").innerHTML = "";
+      getElement("promptText").textContent = "";
+      getElement("jsonText").textContent = "";
+      getElement("jsonStatus").textContent = "";
+      getElement("aiOutput").textContent = "";
+      currentRecommendation = null;
+      getElement("generateAiBtn").disabled = true;
+      stopAiTimer("waiting");
+      setAiStatus(openSourcePipeline ? "AI model ready. Run the matcher to create a new AI report." : "Model not loaded. Run the matcher to start the AI report.");
+      getElement("statusLine").textContent = "Ready for a new match.";
+      getElement("copyStatus").textContent = "";
+    }
+
+    document.querySelectorAll(".preset").forEach(function (button) {
+      button.addEventListener("click", function () {
+        applyProfile(presets[button.getAttribute("data-preset")]);
+        getElement("statusLine").textContent = "Profile loaded. Press GET MY LINUX MATCH when ready.";
+        getElement("quiz").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    getElement("quiz").addEventListener("submit", function (event) {
+      event.preventDefault();
+      var profile = collectProfile();
+      var ranked = rankProfiles(profile);
+      getElement("statusLine").textContent = "STARTING AI REPORT... preparing your profile and verified catalog context...";
+      window.setTimeout(function () {
+        renderResult(profile, ranked);
+        startAIReport();
+      }, 420);
+    });
+
+    getElement("resetBtn").addEventListener("click", resetApp);
+
+    getElement("loadModelBtn").addEventListener("click", function () {
+      loadOpenSourceModel().catch(function (error) {
+        handleAIStartError(error);
+      });
+    });
+
+    getElement("generateAiBtn").addEventListener("click", generateOpenSourceExplanation);
+
+    getElement("copyJson").addEventListener("click", function () {
+      var json = getElement("jsonText").textContent;
+      if (!json) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(json).then(function () {
+          getElement("jsonStatus").textContent = "JSON copied to the clipboard.";
+        }).catch(function () {
+          getElement("jsonStatus").textContent = "Clipboard permission was blocked. Select the JSON manually.";
+        });
+      } else {
+        getElement("jsonStatus").textContent = "Select the JSON manually and copy it.";
+      }
+    });
+
+    getElement("copyPrompt").addEventListener("click", function () {
+      var prompt = getElement("promptText").textContent;
+      if (!prompt) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(prompt).then(function () {
+          getElement("copyStatus").textContent = "Copied. Paste it into ChatGPT or another LLM.";
+        }).catch(function () {
+          getElement("copyStatus").textContent = "Clipboard permission was blocked. Select the prompt manually.";
+        });
+      } else {
+        getElement("copyStatus").textContent = "Select the prompt manually and copy it.";
+      }
+    });
+
+  </script>
+</body>
+</html>
